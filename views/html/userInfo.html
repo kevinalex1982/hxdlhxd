@@ -2,28 +2,43 @@
     <div class="col-sm-16">
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title">Tables
-                    <small>Datatables</small>
+                <h5 class="card-title">用户信息
                 </h5>
             </div>
             <div class="card-block">
-                <table class="table " id="dataTables-example">
-                    <thead>
-                    <tr>
-                        <th>编号</th>
-                        <th>登录账号</th>
-                        <th>昵称</th>
-                        <th>权限</th>
-                        <th>注册时间</th>
-                        <th>最后登录</th>
-                        <th>登录IP</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home" role="tab">管理员</a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile" role="tab">团长</a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages" role="tab">团员</a> </li>
 
-                    </tbody>
-                </table>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="home" role="tabpanel">    <table class="table " id="dataTables-manager">
+                        <thead>
+                        <tr>
+                            <th>编号</th>
+                            <th>登录账号</th>
+                            <th>昵称</th>
+                            <th>权限</th>
+                            <th>注册时间</th>
+                            <th>最后登录</th>
+                            <th>登录IP</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table></div>
+                    <div class="tab-pane" id="profile" role="tabpanel"> Profile  This is awesome product and, I am very happy with delivery & product packaging. Overall experience is good & I prefer to buy it again from this portals and like more orders. </div>
+                    <div class="tab-pane" id="messages" role="tabpanel"> Message  This is awesome product and, I am very happy with delivery & product packaging. Overall experience is good & I prefer to buy it again from this portals and like more orders. </div>
+
+                </div>
+
+
+
                 <!-- /.table-responsive -->
             </div>
         </div>
@@ -266,12 +281,12 @@
     ];
     var columnTest = [
         {"data": "id"},
-        {"data": "login_name"},
-        {"data": "nick_name"},
+        {"data": "usname"},
+        {"data": "nickname"},
         {"data": "role"},
-        {"data": "reg_time"},
-        {"data": "last_time"},
-        {"data": "last_login_ip"},
+        {"data": "regtime"},
+        {"data": "lasttime"},
+        {"data": "lastip"},
         {
             "data": null,
             "title": "操作",
@@ -306,7 +321,9 @@
     $(document).ready(function () {
         console.log(jsondatatest);
         console.log(hex_md5("123456"));
-        var tables = $('#dataTables-example').DataTable({
+       /* 生成datatable管理员*/
+        var tablesmanager = $('#dataTables-manager').DataTable({
+            "dom": 'r<"pull-right"<"toolbar">>ftip',
             lengthChange: false,
             responsive: true,
             processing: true,
@@ -352,7 +369,7 @@
                     //达到多列排序的目的。
                     //search[regex]的默认值为"false"，search[value]里存放的是待搜索字符串，如果没有东西要Search则里面是空字符串。
                     return $.extend({}, d, {
-                        'param': '{ss:333,ddd:444}'//自己增加个data请求参数
+                        'param': {role:1}//自己增加个data请求参数
                     })
                 },
                 dataSrc: function (json) {
@@ -364,11 +381,10 @@
                 crossDomain: true
             }
         });
-
-
+        $("div.toolbar").html("<button type='button' class='btn btn-primary btn-sm '>添加管理员账号</button>");
         // 数据编辑
         $('#dataTables-example tbody').on('click', 'button.datatableEdit', function () {
-            var data = tables.row($(this).parents('tr')).data();
+            var data = tablesmanager.row($(this).parents('tr')).data();
             console.log(data);
             /*    var fields = $("#add-form").serializeArray();
              jQuery.each( fields, function(i, field){

@@ -1,17 +1,53 @@
 var users = require('./users_data.js');
 
-exports.all_users = (pageIndex, pageCount, callback) => {
+exports.checkUserPwd = (usname, password, callback) => {
+  var user = users.filter((u) => {
+    return u.usname == usname && u.pwd == password;
+  });
+
+  if (user != null && user.length == 1) {
+    callback(null);
+  } else {
+    callback({error: `${usname} not valid`});
+  }
+}
+
+exports.single_user = (id, callback) => {
+  var user = users.filter((u) => { return u.id == id; });
+  if (user != null && user.length > 0) callback(null, {
+    id: user[0].id,
+    nickname: user[0].nickname,
+    role: user[0].role,
+    lastip: user[0].lastip,
+    regtime: user[0].regtime,
+    lasttime: user[0].lasttime,
+    status: user[0].status,
+    usname: user[0].usname
+  });
+  else callback({error: `user id ${id} not found!`});
+};
+
+exports.all_users = (pageIndex, pageCount, role, callback) => {
+
+  var matchedUsers = null;
+  if (role == 0) {
+    matchedUsers = users;
+  } else {
+    matchedUsers = users.filter((user) => {
+      return user.role == role;
+    });
+  }
 
   var sliceStart = (pageIndex - 1) * pageCount;
   var sliceEnd = sliceStart + pageCount;
 
   var data = {
-    usersCount: users.length,
+    total: matchedUsers.length,
     pageIndex: pageIndex,
     pageCount: pageCount
   };
 
-  var usersSliced = users.slice(sliceStart, sliceEnd);
+  var usersSliced = matchedUsers.slice(sliceStart, sliceEnd);
 
   var u = [];
   usersSliced.forEach((user) => {
@@ -22,7 +58,8 @@ exports.all_users = (pageIndex, pageCount, callback) => {
       lastip: user.lastip,
       regtime: user.regtime,
       lasttime: user.lasttime,
-      status: user.status
+      status: user.status,
+      usname: user.usname
     });
   });
 
