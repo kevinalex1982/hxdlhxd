@@ -1,0 +1,383 @@
+<div class="row">
+    <div class="col-sm-16">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Tables
+                    <small>Datatables</small>
+                </h5>
+            </div>
+            <div class="card-block">
+                <table class="table " id="dataTables-example">
+                    <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>登录账号</th>
+                        <th>昵称</th>
+                        <th>权限</th>
+                        <th>注册时间</th>
+                        <th>最后登录</th>
+                        <th>登录IP</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <!-- /.table-responsive -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var jsondatatest = [
+        {
+            id: 1,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 2,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 3,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 4,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 5,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 6,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 7,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 8,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 9,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 10,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 11,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 12,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 13,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 14,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 15,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 16,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 17,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 18,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 19,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 20,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        },
+        {
+            id: 21,
+            login_name: "leo",
+            nick_name: "昵称",
+            pwd: "hashed_password",
+            role: 1,
+            // 1：管理员，2：团长，3：团员
+            reg_time: "yyyy-MM-dd HH:mm:ss",
+            last_time: "yyyy-MM-dd HH:mm:ss",
+            last_login_ip: "111.222.123.213"
+        }
+    ];
+    var columnTest = [
+        {"data": "id"},
+        {"data": "login_name"},
+        {"data": "nick_name"},
+        {"data": "role"},
+        {"data": "reg_time"},
+        {"data": "last_time"},
+        {"data": "last_login_ip"},
+        {
+            "data": null,
+            "title": "操作",
+            "defaultContent": "<button type='button' class='btn btn-primary btn-sm datatableEdit'>修改</button> <button type='button' class='btn btn-danger btn-sm datatableDelete'>删除</button>"
+        }
+    ];
+    var lang = {
+        "sProcessing": "处理中...",
+        "sLengthMenu": "每页 _MENU_ 条记录",
+        "sZeroRecords": "没有匹配结果",
+        "sInfo": "当前显示第 _START_ 至第 _END_ 条记录，共 _TOTAL_ 条记录。",
+        "sInfoEmpty": "当前显示第 0 至 0 条记录，共 0 条记录",
+        "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+        "sInfoPostFix": "",
+        "sSearch": "搜索:",
+        "sUrl": "",
+        "sEmptyTable": "表中数据为空",
+        "sLoadingRecords": "载入中...",
+        "sInfoThousands": ",",
+        "oPaginate": {
+            "sFirst": "首页",
+            "sPrevious": "上页",
+            "sNext": "下页",
+            "sLast": "末页",
+            "sJump": "跳转"
+        },
+        "oAria": {
+            "sSortAscending": ": 以升序排列此列",
+            "sSortDescending": ": 以降序排列此列"
+        }
+    };
+    $(document).ready(function () {
+        console.log(jsondatatest);
+        console.log(hex_md5("123456"));
+        var tables = $('#dataTables-example').DataTable({
+            lengthChange: false,
+            responsive: true,
+            processing: true,
+            pageLength: 15,
+            /* data: jsondatatest,*/
+            columns: columnTest,
+            sPaginationType: "full_numbers",
+            oLanguage: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "每页 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "当前显示第 _START_ 至第 _END_ 条记录，共 _TOTAL_ 条记录。",
+                "sInfoEmpty": "当前显示第 0 至 0 条记录，共 0 条记录",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页",
+                    "sJump": "跳转"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            },
+            "serverSide": true,//服务端进行分页处理
+            "ajax": {
+                data: function (d) {
+                    console.log('custom request');
+                    //默认会有
+                    //start，表示要从第几行记录开始显示，例如0表示要取第一行记录开始的页面。
+                    //length，表示要取的记录数量，即页面大小。
+                    //[order][0][column]参数为0表示第一列，1表示第二列，[order][0][dir]参数为asc，表示要求服务端返回所指向列升序的表。
+                    //接住Shift可以选择多列排序，会添加下面的键值对请求
+                    //[order][1][column]参数为2表示第三列，3表示第四列，[order][1][dir]参数为asc，表示要求服务端返回所指向列升序的表。
+                    //达到多列排序的目的。
+                    //search[regex]的默认值为"false"，search[value]里存放的是待搜索字符串，如果没有东西要Search则里面是空字符串。
+                    return $.extend({}, d, {
+                        'param': '{ss:333,ddd:444}'//自己增加个data请求参数
+                    })
+                },
+                dataSrc: function (json) {
+                    console.log('process response data from server side before display.');
+                    return json.data;
+                },
+                url: "/dldata/getUsers",
+                type: "POST",
+                crossDomain: true
+            }
+        });
+
+
+        // 数据编辑
+        $('#dataTables-example tbody').on('click', 'button.datatableEdit', function () {
+            var data = tables.row($(this).parents('tr')).data();
+            console.log(data);
+            /*    var fields = $("#add-form").serializeArray();
+             jQuery.each( fields, function(i, field){
+             //jquery根据name属性查找
+             $(":input[name='"+field.name+"']").val(data[i]);
+             });
+             $(":input[name='mark']").val("edit");
+             $("#modal-form").modal("show");//弹出框show*/
+
+        });
+    })
+</script>
