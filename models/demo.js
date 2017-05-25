@@ -72,11 +72,20 @@ db.users.checkUserPwd('admin', 'e10adc3949ba59abbe56e057f20f883e', (err) => {
   console.log("admin valid!");
 });
 
+// 更新用户上次登录IP
+// 1. userid
+// 2. 新的IP
+// 3. 回调，err如果成功为null，否则表示失败。属性error表示错误描述。
+db.users.updateUserLastIp(1, "1.1.1.2", (err) => {
+  if (err) { console.log(err); return; }
+  console.log("update last ip success!");
+});
+
 // 查询所有用户
-// db.users.all_users(1, 10, 0, (err, users) => {
-//   if (err) { console.log(err.error); return; };
-//   console.log(users);
-// });
+db.users.all_users(1, 10, 0, (err, users) => {
+  if (err) { console.log(err.error); return; };
+  console.log(users);
+});
 
 // 查询所有游戏
 db.games.all_games(1, 20, 1, (err, games) => {

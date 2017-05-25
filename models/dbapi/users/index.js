@@ -168,3 +168,16 @@ exports.changeUserStatus = (id, status, callback) => {
 
   callback(error);
 };
+
+exports.updateUserLastIp = (id, newip, callback) => {
+  var error = { error: "not found" };
+  for (var i = 0; i < users.length; i++) {
+    if (users[i].id == id) {
+      users[i].lastip = newip;
+      error = null;
+      break;
+    }
+  }
+
+  callback(error);
+};

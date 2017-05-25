@@ -6,9 +6,32 @@ var getDataG = require('../models/DataFromMongo');
 
 
 router.get('/', function (req, res, next) {
-    res.render('login.html');
+    res.render('index.html');
 
 });
+
+router.post('/checkuser', function (req, res, next) {
+    console.log(req.body.username);
+    if (req.body.username == 'test') {
+        res.send('success');
+
+
+    }
+    else {
+        res.send('error');
+
+    }
+});
+
+
+router.get('/main', function (req, res, next) {
+    //res.render('main.html');
+
+        res.render('main.html');
+
+
+});
+
 
 /*router.get('/main', function (req, res, next) {
  console.log(req.session);
@@ -165,8 +188,7 @@ router.get('/getValueNAEIO', function (req, resH, next) {
 router.post('/dataTest', function (req, res, next) {
     console.log(req.body);
     var jsondatatest = {
-        data:
-        [
+        data: [
             {
                 id: 1,
                 login_name: "leo",
@@ -177,238 +199,237 @@ router.post('/dataTest', function (req, res, next) {
                 reg_time: "yyyy-MM-dd HH:mm:ss",
                 last_time: "yyyy-MM-dd HH:mm:ss",
                 last_login_ip: "111.222.123.213"
-            
-        },
-        {
-            id: 2,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 3,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 4,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 5,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 6,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 7,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 8,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 9,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 10,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 11,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 12,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 13,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 14,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 15,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 16,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 17,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 18,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 19,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 20,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 21,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        }
-    ],
-    "iTotalDisplayRecords": "21",
+
+            },
+            {
+                id: 2,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            },
+            {
+                id: 3,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            },
+            {
+                id: 4,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            },
+            {
+                id: 5,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            },
+            {
+                id: 6,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            },
+            {
+                id: 7,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            },
+            {
+                id: 8,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            },
+            {
+                id: 9,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            },
+            {
+                id: 10,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            },
+            {
+                id: 11,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            },
+            {
+                id: 12,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            },
+            {
+                id: 13,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            },
+            {
+                id: 14,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            },
+            {
+                id: 15,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            },
+            {
+                id: 16,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            },
+            {
+                id: 17,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            },
+            {
+                id: 18,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            },
+            {
+                id: 19,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            },
+            {
+                id: 20,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            },
+            {
+                id: 21,
+                login_name: "leo",
+                nick_name: "昵称",
+                pwd: "hashed_password",
+                role: 1,
+                // 1：管理员，2：团长，3：团员
+                reg_time: "yyyy-MM-dd HH:mm:ss",
+                last_time: "yyyy-MM-dd HH:mm:ss",
+                last_login_ip: "111.222.123.213"
+            }
+        ],
+        "iTotalDisplayRecords": "21",
         "iTotalRecords": "21",
-        "message": "success"  }
-   res.send(jsondatatest);
+        "message": "success"
+    }
+    res.send(jsondatatest);
 
 
 });
-
-
 
 
 router.get('/getValueNAEProgram', function (req, resH, next) {
@@ -651,7 +672,6 @@ router.post('/GetYQ', function (reqH, resH, next) {
 });
 
 
-
 router.post('/GetYQBy', function (reqH, resH, next) {
 
     var http = require('http');
@@ -691,7 +711,6 @@ router.post('/GetYQBy', function (reqH, resH, next) {
     console.error('here');
     req.write(postData);
     req.end();
-
 
 
 });

@@ -7,36 +7,44 @@
             </div>
             <div class="card-block">
                 <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home" role="tab">管理员</a> </li>
-                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile" role="tab">团长</a> </li>
-                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages" role="tab">团员</a> </li>
+                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#manager" role="tab">管理员</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#captain" role="tab">团长</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#member" role="tab">团员</a></li>
 
                 </ul>
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div class="tab-pane active" id="home" role="tabpanel">    <table class="table " id="dataTables-manager">
-                        <thead>
-                        <tr>
-                            <th>编号</th>
-                            <th>登录账号</th>
-                            <th>昵称</th>
-                            <th>权限</th>
-                            <th>注册时间</th>
-                            <th>最后登录</th>
-                            <th>登录IP</th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                    <div class="tab-pane active" id="manager" role="tabpanel">
+                        <table class="table " id="dataTables-manager">
+                            <thead>
+                            <tr>
+                                <th hidden>编号</th>
+                                <th>登录账号</th>
+                                <th>昵称</th>
+                                <th>权限</th>
+                                <th>注册时间</th>
+                                <th>最后登录</th>
+                                <th>登录IP</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
 
-                        </tbody>
-                    </table></div>
-                    <div class="tab-pane" id="profile" role="tabpanel"> Profile  This is awesome product and, I am very happy with delivery & product packaging. Overall experience is good & I prefer to buy it again from this portals and like more orders. </div>
-                    <div class="tab-pane" id="messages" role="tabpanel"> Message  This is awesome product and, I am very happy with delivery & product packaging. Overall experience is good & I prefer to buy it again from this portals and like more orders. </div>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="captain" role="tabpanel"> Profile This is awesome product and, I am very
+                        happy with delivery & product packaging. Overall experience is good & I prefer to buy it again
+                        from this portals and like more orders.
+                    </div>
+                    <div class="tab-pane" id="member" role="tabpanel"> Message This is awesome product and, I am very
+                        happy with delivery & product packaging. Overall experience is good & I prefer to buy it again
+                        from this portals and like more orders.
+                    </div>
 
                 </div>
-
 
 
                 <!-- /.table-responsive -->
@@ -45,240 +53,9 @@
     </div>
 </div>
 
+
 <script>
-    var jsondatatest = [
-        {
-            id: 1,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 2,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 3,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 4,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 5,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 6,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 7,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 8,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 9,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 10,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 11,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 12,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 13,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 14,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 15,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 16,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 17,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 18,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 19,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 20,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        },
-        {
-            id: 21,
-            login_name: "leo",
-            nick_name: "昵称",
-            pwd: "hashed_password",
-            role: 1,
-            // 1：管理员，2：团长，3：团员
-            reg_time: "yyyy-MM-dd HH:mm:ss",
-            last_time: "yyyy-MM-dd HH:mm:ss",
-            last_login_ip: "111.222.123.213"
-        }
-    ];
+    var tablesmanager;
     var columnTest = [
         {"data": "id"},
         {"data": "usname"},
@@ -319,10 +96,10 @@
         }
     };
     $(document).ready(function () {
-        console.log(jsondatatest);
+
         console.log(hex_md5("123456"));
-       /* 生成datatable管理员*/
-        var tablesmanager = $('#dataTables-manager').DataTable({
+        /* 生成datatable管理员*/
+         tablesmanager = $('#dataTables-manager').DataTable({
             "dom": 'r<"pull-right"<"toolbar">>ftip',
             lengthChange: false,
             responsive: true,
@@ -369,7 +146,7 @@
                     //达到多列排序的目的。
                     //search[regex]的默认值为"false"，search[value]里存放的是待搜索字符串，如果没有东西要Search则里面是空字符串。
                     return $.extend({}, d, {
-                        'param': {role:1}//自己增加个data请求参数
+                        'param': {role: 1}//自己增加个data请求参数
                     })
                 },
                 dataSrc: function (json) {
@@ -381,7 +158,12 @@
                 crossDomain: true
             }
         });
-        $("div.toolbar").html("<button type='button' class='btn btn-primary btn-sm '>添加管理员账号</button>");
+
+        var column = tablesmanager.column( $(this).attr('id') );
+
+        // Toggle the visibility
+        column.visible(false);
+        $("div.toolbar").html("<button type='button' class='btn btn-primary btn-sm ' data-toggle='modal' data-target='#addManagerModal' id='addManagerModalBtn'>添加管理员账号</button>");
         // 数据编辑
         $('#dataTables-example tbody').on('click', 'button.datatableEdit', function () {
             var data = tablesmanager.row($(this).parents('tr')).data();
@@ -395,5 +177,28 @@
              $("#modal-form").modal("show");//弹出框show*/
 
         });
+
+
     })
+
+
+    function  checkManagerPSWSame() {
+        var isSame =false;
+        if ($("#inputManagerPSW2").val() != $("#inputManagerPSW1").val()) {
+            console.log($("#inputManagerPSW2").val());
+            $("#pswSameWarn").show();
+            if (!($("#checkInputManagePSW").hasClass("has-danger"))) {
+                $("#checkInputManagePSW").addClass("has-danger");
+            }
+            isSame =false;
+        }
+        else {
+            $("#pswSameWarn").hide();
+            if (($("#checkInputManagePSW").hasClass("has-danger"))) {
+                $("#checkInputManagePSW").removeClass("has-danger");
+            }
+            isSame =true;
+        }
+        return isSame;
+    }
 </script>
