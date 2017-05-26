@@ -26,18 +26,20 @@
 <div class="wrapper-content-sign-in ">
     <div class="container text-center">
         <h1 class="form-signin-heading text-white"><i class="fa fa-trophy"></i> 华夏代练</h1>
-        <form class="form-signin1 light">
+        <form class="form-signin1 light" method="post" action="/checkuserhxdl">
             <h2 class="tex-black mb-4">登录</h2>
             <label class="sr-only">用户名</label>
-            <input type="text" class="form-control" placeholder="用户名">
+            <input type="text" class="form-control" name="username" placeholder="用户名">
             <br>
             <label class="sr-only">密码</label>
-            <input type="text" class="form-control" placeholder="密码">
+            <input id="pwd" type="password" class="form-control" name="password" placeholder="密码">
             <br>
 
-            <a id="login" class="btn btn-lg btn-primary btn-round">登录</a><br>
+            <button id="login" class="btn btn-lg btn-primary btn-round" type="submit">登录</button><br>
 
         </form>
+
+
 
     </div>
 
@@ -51,19 +53,11 @@
 <script src="js/ie10-viewport-bug-workaround.js"></script>
 <script>
     $("#login").on('click', function () {
-        $.post("/checkuser",{username:'test',password:hex_md5('test')},function(result){
-            console.log(result);
-            if(result=="error")
-            {
-                window.location='/';
-            }
-            else
-            {
-                sessionStorage.setItem("hxdlusername","test");
-                window.location='/main';
-            }
-        });
+        $("#pwd").val(hex_md5($("#pwd").val()));
+
+
     })
+
 </script>
 </body>
 </html>

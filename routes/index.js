@@ -2,6 +2,7 @@
 var router = express.Router();
 var getImages = require('../models/imgList');
 var getDataG = require('../models/DataFromMongo');
+var db = require('../models/dbapi');
 /* GET home page. */
 
 
@@ -10,146 +11,21 @@ router.get('/', function (req, res, next) {
 
 });
 
-router.post('/checkuser', function (req, res, next) {
+router.post('/checkuserhxdl', function (req, res, next) {
     console.log(req.body.username);
-    if (req.body.username == 'test') {
-        res.send('success');
-
-
-    }
-    else {
-        res.send('error');
-
-    }
-});
-
-
-router.get('/main', function (req, res, next) {
-    //res.render('main.html');
-
-        res.render('main.html');
-
-
-});
-
-
-/*router.get('/main', function (req, res, next) {
- console.log(req.session);
- if (req && req.session.userLogined === "1") {
- // req.session.userLogined = "2";
-
- res.render('indexMain.html', {username: req.session.uname});
- }
- });*/
-router.get('/main', function (req, res, next) {
-    getDataG.ConnectToMongoDB('sbhyh');
-    res.render('indexMain.html');
-
-});
-
-
-router.post('/checkuser', function (req, res, next) {
-    req.session.userLogined = "1";
-    req.session.uname = req.body.uname;//获取post上来的 data数据中 uname的值
-    console.log(req.body);
-    if (req.body.uname == "admin") {
-        if (req.body.upsw == "Ubpa0585") {
-            res.send(200);
-        } else {
-            res.send(401);
+    console.log(req.body.password);
+    db.users.checkUserPwd(req.body.username, req.body.password, (err, user) => {
+        if (err) {
+            res.send(err);
+            return;
         }
-    } else if (req.body.uname == "guest") {
-        if (req.body.upsw == "guest") {
-            res.send(200);
-        } else {
-            res.send(401);
-        }
-    }
-    else if (req.body.uname == "UBPA") {
-        if (req.body.upsw == "UBPA") {
-            res.send(200);
-        } else {
-            res.send(401);
-        }
-    }
-
-});
-router.post('/getAllImg', function (req, res, next) {
-    console.log(req.body.year);
-    getImages.getAllFiles(req.body.year, function (data) {
-
-        //console.log(data);
-        res.send(data);
+        console.log(user);
+        res.render('main', {user: user});
     });
 
 
 });
 
-router.get('/getValueLL', function (req, resH, next) {
-    //发送Get请求
-    var http = require('http');
-    var options = {
-        hostname: '192.168.10.66',
-        port: 4000,
-        path: '/?QueryBy=3&QueryContent=LL.BACnetIP1Device-88AnalogValuesAV-2&ForceUpdate=true',
-        method: 'GET'
-    }
-    var dataVal;
-//创建请求
-    var req = http.request(options, function (res) {
-        /*    console.log('STATUS:' + res.statusCode);
-         console.log('HEADERS:' + JSON.stringify(res.headers));*/
-        res.setEncoding('utf-8');
-        res.on('data', function (chunk) {
-            /*     console.log('数据片段分隔-----------------------\r\n');
-             console.log(chunk);*/
-            resH.send(chunk);
-        });
-        res.on('end', function () {
-            /* console.log('响应结束********');*/
-        });
-    });
-    req.on('error', function (err) {
-        resH.send(err);
-        console.error(err);
-    });
-
-    req.end();
-
-});
-
-router.get('/getValueYL', function (req, resH, next) {
-    //发送Get请求
-    var http = require('http');
-    var options = {
-        hostname: '192.168.10.66',
-        port: 4000,
-        path: '/?QueryBy=3&QueryContent=YL.BACnetIP1Device-88AnalogValuesAV-1&ForceUpdate=true',
-        method: 'GET'
-    }
-    var dataVal;
-//创建请求
-    var req = http.request(options, function (res) {
-        /*   console.log('STATUS:' + res.statusCode);
-         console.log('HEADERS:' + JSON.stringify(res.headers));*/
-        res.setEncoding('utf-8');
-        res.on('data', function (chunk) {
-            /*   console.log('数据片段分隔-----------------------\r\n');
-             console.log(chunk);*/
-            resH.send(chunk);
-        });
-        res.on('end', function () {
-            /* console.log('响应结束********');*/
-        });
-    });
-    req.on('error', function (err) {
-        resH.send(err);
-        console.error(err);
-    });
-
-    req.end();
-
-});
 
 router.get('/getValueNAEIO', function (req, resH, next) {
     //发送Get请求

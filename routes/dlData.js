@@ -14,12 +14,10 @@ router.post('/getUsers', function (req, res, next) {
 // 查询所有用户
 // 1：页号，从1开始，2：每页记录条数，3：role，0所有，1管理员，2团长，3团员
 // 4：回调，err如果成功为null，否则表示失败。属性error表示错误描述。users对应的用户信息
-    db.users.all_users(req.body.start + 1, req.body.length, req.body.param.role, (err, users) => {
+    db.users.all_users(Number(req.body.start/req.body.length) + 1, req.body.length, req.body.param.role, (err, users) => {
         if (err) {
             console.log(err.error);
-            return;
-        }
-        ;
+            return;   } ;
         console.log(users);
         var jsonSend = {
             data: users.users, "iTotalDisplayRecords": users.total,
@@ -35,7 +33,7 @@ router.post('/addAdmin', function (req, res, next) {
 
 // 添加管理员
 // 1： 用户登录名，2：昵称，3：密码（经过md5运算），4：回调，err如果成功为null，否则表示失败。属性error表示错误描述。
-    db.users.addAdmin(req.body.usloginname, req.body.usnickname,  req.body.usloginpsw, (err) => {
+    db.users.addAdmin(req.body.usloginname, req.body.usnickname,  req.body.usloginpsw, (err, user) => {
         if (err) {
             res.send("error");
             console.log(err.error);
@@ -43,7 +41,7 @@ router.post('/addAdmin', function (req, res, next) {
         }
         else
         {
-            res.send("success");
+            res.send(user);
         }
 
         console.log('======= add Admin success.');

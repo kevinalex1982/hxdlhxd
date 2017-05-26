@@ -2,23 +2,23 @@ var db = require('./dbapi'); // 后台数据库相关api
 
 // 添加管理员
 // 1： 用户登录名，2：昵称，3：密码（经过md5运算），4：回调，err如果成功为null，否则表示失败。属性error表示错误描述。
-db.users.addAdmin('admin2', '昵称2', 'e10adc3949ba59abbe56e057f20f883e', (err)=> {
+db.users.addAdmin('admin2', '昵称2', 'e10adc3949ba59abbe56e057f20f883e', (err, user)=> {
   if (err) { console.log(err.error); return; };
-  console.log('======= add Admin success.');
+  console.log(`======= add Admin success. user = `, user);
 });
 
 // 添加团长
 // 1： 用户登录名，2：昵称，3：密码（经过md5运算），4：回调，err如果成功为null，否则表示失败。属性error表示错误描述。
-db.users.addTZ('tz2', '团长2', 'e10adc3949ba59abbe56e057f20f883e', (err)=> {
+db.users.addTZ('tz2', '团长2', 'e10adc3949ba59abbe56e057f20f883e', (err, user)=> {
   if (err) { console.log(err.error); return; };
-  console.log('======= add 团长 success.');
+  console.log(`======= add 团长 success. user = `, user);
 });
 
 // 添加团员
 // 1： 用户登录名，2：昵称，3：密码（经过md5运算），4：回调，err如果成功为null，否则表示失败。属性error表示错误描述。
-db.users.addTY('ty2', '团员3', 'e10adc3949ba59abbe56e057f20f883e', (err)=> {
+db.users.addTY('ty2', '团员3', 'e10adc3949ba59abbe56e057f20f883e', (err, user)=> {
   if (err) { console.log(err.error); return; };
-  console.log('======= add 团员 success.');
+  console.log(`======= add 团员 success. user = `, user);
 });
 
 // 查询所有用户
@@ -62,14 +62,15 @@ db.users.delUser(4, (err) => {
 // 1：用户id，2：status值，3：回调，err如果成功为null，否则表示失败。属性error表示错误描述。
 db.users.changeUserStatus(3, 0, (err) => {
   if (err) { console.log(err.error); return; };
-  console.log('======= changed');
+  console.log(`======= changed`);
 });
 
 // 登录时检查是否可以登录
 // 1：usname, 2：密码（前端输入的密码加密后的md5串，小写
-db.users.checkUserPwd('admin', 'e10adc3949ba59abbe56e057f20f883e', (err) => {
+// 3：回调 ，err不空时表示错误，空时user为相应的用户信息
+db.users.checkUserPwd('admin', 'e10adc3949ba59abbe56e057f20f883e', (err, user) => {
   if (err) { console.log(err); return; }
-  console.log("admin valid!");
+  console.log(`admin valid!user:`, user);
 });
 
 // 更新用户上次登录IP

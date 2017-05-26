@@ -6,21 +6,21 @@
                 </h5>
             </div>
             <div class="card-block">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#manager" role="tab">管理员</a>
+                <ul class="nav nav-tabs" role="tablist" id="usertab">
+                    <li class="nav-item manageruser"><a id="managera" class="nav-link active" data-toggle="tab" href="#manager" role="tab">管理员</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#captain" role="tab">团长</a></li>
-                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#member" role="tab">团员</a></li>
+                    <li class="nav-item captainuser"><a id="capataina" class="nav-link" data-toggle="tab" href="#captain" role="tab">团长</a></li>
+                    <li class="nav-item memberuser"><a id="membera" class="nav-link" data-toggle="tab" href="#member" role="tab">团员</a></li>
 
                 </ul>
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div class="tab-pane active" id="manager" role="tabpanel">
+                    <div class="tab-pane active " id="manager" role="tabpanel">
                         <table class="table " id="dataTables-manager">
                             <thead>
                             <tr>
-                                <th hidden>编号</th>
+                                <th >编号</th>
                                 <th>登录账号</th>
                                 <th>昵称</th>
                                 <th>权限</th>
@@ -35,13 +35,44 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="tab-pane" id="captain" role="tabpanel"> Profile This is awesome product and, I am very
-                        happy with delivery & product packaging. Overall experience is good & I prefer to buy it again
-                        from this portals and like more orders.
+                    <div class="tab-pane " id="captain" role="tabpanel">
+                        <table class="table " id="dataTables-captain">
+                        <thead>
+                        <tr>
+                            <th >编号</th>
+                            <th>登录账号</th>
+                            <th>昵称</th>
+                            <th>权限</th>
+                            <th>注册时间</th>
+                            <th>最后登录</th>
+                            <th>登录IP</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+
                     </div>
-                    <div class="tab-pane" id="member" role="tabpanel"> Message This is awesome product and, I am very
-                        happy with delivery & product packaging. Overall experience is good & I prefer to buy it again
-                        from this portals and like more orders.
+                    <div class="tab-pane " id="member" role="tabpanel">
+                        <table class="table " id="dataTables-member">
+                            <thead>
+                            <tr>
+                                <th >编号</th>
+                                <th>登录账号</th>
+                                <th>昵称</th>
+                                <th>权限</th>
+                                <th>注册时间</th>
+                                <th>最后登录</th>
+                                <th>登录IP</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
                     </div>
 
                 </div>
@@ -55,7 +86,12 @@
 
 
 <script>
+
+
+
     var tablesmanager;
+    var tablescaptain;
+    var tablesmember;
     var columnTest = [
         {"data": "id"},
         {"data": "usname"},
@@ -97,10 +133,131 @@
     };
     $(document).ready(function () {
 
-        console.log(hex_md5("123456"));
+        if(currole == '1'){
+            managerInit();
+            captainInit();
+            memberInit();
+        }
+        else if(currole == '2'){
+            $(".manageruser").hide();
+
+            $('#usertab a[href="#captain"]').tab('show')
+        }
+        else if(currole == '3'){
+            $(".manageruser").hide();
+            $(".captainuser").hide();
+            $('#usertab a[href="#member"]').tab('show')
+           // $("#membera").addClass('active');
+        }
+
+
+
+
+    })
+
+    /* manager初始化*/
+function managerInit() {
+    /* 生成datatable管理员*/
+    tablesmanager = $('#dataTables-manager').DataTable({
+        "dom": 'r<"pull-right"<"toolbarManager">>ftip',
+        lengthChange: false,
+        responsive: true,
+        processing: true,
+        pageLength: 15,
+        /* data: jsondatatest,*/
+        columns: columnTest,
+        sPaginationType: "full_numbers",
+        oLanguage: {
+            "sProcessing": "处理中...",
+            "sLengthMenu": "每页 _MENU_ 条记录",
+            "sZeroRecords": "没有匹配结果",
+            "sInfo": "当前显示第 _START_ 至第 _END_ 条记录，共 _TOTAL_ 条记录。",
+            "sInfoEmpty": "当前显示第 0 至 0 条记录，共 0 条记录",
+            "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+            "sInfoPostFix": "",
+            "sSearch": "搜索:",
+            "sUrl": "",
+            "sEmptyTable": "表中数据为空",
+            "sLoadingRecords": "载入中...",
+            "sInfoThousands": ",",
+            "oPaginate": {
+                "sFirst": "首页",
+                "sPrevious": "上页",
+                "sNext": "下页",
+                "sLast": "末页",
+                "sJump": "跳转"
+            },
+            "oAria": {
+                "sSortAscending": ": 以升序排列此列",
+                "sSortDescending": ": 以降序排列此列"
+            }
+        },
+        "serverSide": true,//服务端进行分页处理
+        "ajax": {
+            data: function (d) {
+                console.log('custom request');
+                //默认会有
+                //start，表示要从第几行记录开始显示，例如0表示要取第一行记录开始的页面。
+                //length，表示要取的记录数量，即页面大小。
+                //[order][0][column]参数为0表示第一列，1表示第二列，[order][0][dir]参数为asc，表示要求服务端返回所指向列升序的表。
+                //接住Shift可以选择多列排序，会添加下面的键值对请求
+                //[order][1][column]参数为2表示第三列，3表示第四列，[order][1][dir]参数为asc，表示要求服务端返回所指向列升序的表。
+                //达到多列排序的目的。
+                //search[regex]的默认值为"false"，search[value]里存放的是待搜索字符串，如果没有东西要Search则里面是空字符串。
+                return $.extend({}, d, {
+                    'param': {role: 1}//自己增加个data请求参数
+                })
+            },
+            dataSrc: function (json) {
+                console.log('process response data from server side before display.');
+                return json.data;
+            },
+            url: "/dldata/getUsers",
+            type: "POST",
+            crossDomain: true
+        }
+    });
+
+
+    $("div.toolbarManager").html("<button type='button' class='btn btn-primary btn-sm ' data-toggle='modal' data-target='#addManagerModal' id='addManagerModalBtn'>添加管理员账号</button>");
+    // 数据编辑
+    $('#dataTables-manager tbody').on('click', 'button.datatableEdit', function () {
+        var data = tablesmanager.row($(this).parents('tr')).data();
+        console.log(data);
+        /*    var fields = $("#add-form").serializeArray();
+         jQuery.each( fields, function(i, field){
+         //jquery根据name属性查找
+         $(":input[name='"+field.name+"']").val(data[i]);
+         });
+         $(":input[name='mark']").val("edit");
+         $("#modal-form").modal("show");//弹出框show*/
+
+    });
+
+
+
+    /*弹出manager添加modal*/
+    $("#addManagerModalBtn").on('click', function () {
+        console.log('cleartext');
+        checkManagerPSWSame();
+       /* $("#usLoginNameforManager").val('');
+        $("#nickNameforManager").val('');
+        $("#inputManagerPSW1").val('');
+        $("#inputManagerPSW2").val('');
+        $("#pswSameWarn").hide();
+        if (($("#checkInputManagePSW").hasClass("has-danger"))) {
+            $("#checkInputManagePSW").removeClass("has-danger");
+        }*/
+    })
+
+
+}
+
+    /* 团长初始化*/
+    function captainInit() {
         /* 生成datatable管理员*/
-         tablesmanager = $('#dataTables-manager').DataTable({
-            "dom": 'r<"pull-right"<"toolbar">>ftip',
+        tablescaptain = $('#dataTables-captain').DataTable({
+            "dom": 'r<"pull-right"<"toolbarCaptain">>ftip',
             lengthChange: false,
             responsive: true,
             processing: true,
@@ -146,7 +303,7 @@
                     //达到多列排序的目的。
                     //search[regex]的默认值为"false"，search[value]里存放的是待搜索字符串，如果没有东西要Search则里面是空字符串。
                     return $.extend({}, d, {
-                        'param': {role: 1}//自己增加个data请求参数
+                        'param': {role: 2}//自己增加个data请求参数
                     })
                 },
                 dataSrc: function (json) {
@@ -159,14 +316,11 @@
             }
         });
 
-        var column = tablesmanager.column( $(this).attr('id') );
 
-        // Toggle the visibility
-        column.visible(false);
-        $("div.toolbar").html("<button type='button' class='btn btn-primary btn-sm ' data-toggle='modal' data-target='#addManagerModal' id='addManagerModalBtn'>添加管理员账号</button>");
+        $("div.toolbarCaptain").html("<button type='button' class='btn btn-primary btn-sm ' data-toggle='modal' data-target='#addCaptainModal' id='addCaptainModalBtn'>添加团长账号</button>");
         // 数据编辑
-        $('#dataTables-example tbody').on('click', 'button.datatableEdit', function () {
-            var data = tablesmanager.row($(this).parents('tr')).data();
+        $('#dataTables-captain tbody').on('click', 'button.datatableEdit', function () {
+            var data = tablescaptain.row($(this).parents('tr')).data();
             console.log(data);
             /*    var fields = $("#add-form").serializeArray();
              jQuery.each( fields, function(i, field){
@@ -177,11 +331,89 @@
              $("#modal-form").modal("show");//弹出框show*/
 
         });
+    }
+
+    /* 团员初始化*/
+    function memberInit() {
+        /* 生成datatable管理员*/
+        tablesmember = $('#dataTables-member').DataTable({
+            "dom": 'r<"pull-right"<"toolbarMember">>ftip',
+            lengthChange: false,
+            responsive: true,
+            processing: true,
+            pageLength: 15,
+            /* data: jsondatatest,*/
+            columns: columnTest,
+            sPaginationType: "full_numbers",
+            oLanguage: {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "每页 _MENU_ 条记录",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "当前显示第 _START_ 至第 _END_ 条记录，共 _TOTAL_ 条记录。",
+                "sInfoEmpty": "当前显示第 0 至 0 条记录，共 0 条记录",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页",
+                    "sJump": "跳转"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            },
+            "serverSide": true,//服务端进行分页处理
+            "ajax": {
+                data: function (d) {
+                    console.log('custom request');
+                    //默认会有
+                    //start，表示要从第几行记录开始显示，例如0表示要取第一行记录开始的页面。
+                    //length，表示要取的记录数量，即页面大小。
+                    //[order][0][column]参数为0表示第一列，1表示第二列，[order][0][dir]参数为asc，表示要求服务端返回所指向列升序的表。
+                    //接住Shift可以选择多列排序，会添加下面的键值对请求
+                    //[order][1][column]参数为2表示第三列，3表示第四列，[order][1][dir]参数为asc，表示要求服务端返回所指向列升序的表。
+                    //达到多列排序的目的。
+                    //search[regex]的默认值为"false"，search[value]里存放的是待搜索字符串，如果没有东西要Search则里面是空字符串。
+                    return $.extend({}, d, {
+                        'param': {role: 3}//自己增加个data请求参数
+                    })
+                },
+                dataSrc: function (json) {
+                    console.log('process response data from server side before display.');
+                    return json.data;
+                },
+                url: "/dldata/getUsers",
+                type: "POST",
+                crossDomain: true
+            }
+        });
 
 
-    })
+        $("div.toolbarMember").html("<button type='button' class='btn btn-primary btn-sm ' data-toggle='modal' data-target='#addMemberModal' id='addMemberModalBtn'>添加团员账号</button>");
+        // 数据编辑
+        $('#dataTables-member tbody').on('click', 'button.datatableEdit', function () {
+            var data = tablesmember.row($(this).parents('tr')).data();
+            console.log(data);
+            /*    var fields = $("#add-form").serializeArray();
+             jQuery.each( fields, function(i, field){
+             //jquery根据name属性查找
+             $(":input[name='"+field.name+"']").val(data[i]);
+             });
+             $(":input[name='mark']").val("edit");
+             $("#modal-form").modal("show");//弹出框show*/
 
+        });
+    }
 
+    //检测密码是否两次相同
     function  checkManagerPSWSame() {
         var isSame =false;
         if ($("#inputManagerPSW2").val() != $("#inputManagerPSW1").val()) {
@@ -196,6 +428,48 @@
             $("#pswSameWarn").hide();
             if (($("#checkInputManagePSW").hasClass("has-danger"))) {
                 $("#checkInputManagePSW").removeClass("has-danger");
+            }
+            isSame =true;
+        }
+        return isSame;
+    }
+
+    //检测密码是否两次相同
+    function  checkCaptainPSWSame() {
+        var isSame =false;
+        if ($("#inputCaptainPSW2").val() != $("#inputCaptainPSW1").val()) {
+            console.log($("#inputCaptainPSW2").val());
+            $("#pswCaptainSameWarn").show();
+            if (!($("#checkInputCaptainPSW").hasClass("has-danger"))) {
+                $("#checkInputCaptainPSW").addClass("has-danger");
+            }
+            isSame =false;
+        }
+        else {
+            $("#pswCaptainSameWarn").hide();
+            if (($("#checkInputCaptainPSW").hasClass("has-danger"))) {
+                $("#checkInputCaptainPSW").removeClass("has-danger");
+            }
+            isSame =true;
+        }
+        return isSame;
+    }
+
+    //检测密码是否两次相同
+    function  checkMemberPSWSame() {
+        var isSame =false;
+        if ($("#inputMemberPSW2").val() != $("#inputMemberPSW1").val()) {
+            console.log($("#inputMemberPSW2").val());
+            $("#pswMemberSameWarn").show();
+            if (!($("#checkInputMemberPSW").hasClass("has-danger"))) {
+                $("#checkInputMemberPSW").addClass("has-danger");
+            }
+            isSame =false;
+        }
+        else {
+            $("#pswMemberSameWarn").hide();
+            if (($("#checkInputMemberPSW").hasClass("has-danger"))) {
+                $("#checkInputMemberPSW").removeClass("has-danger");
             }
             isSame =true;
         }
