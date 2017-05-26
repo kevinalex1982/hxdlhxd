@@ -178,16 +178,28 @@
                      data-animation-start-value="0" data-reverse="false"></div>
                 <div class="user-details">
                     <figure><img src="img/user-header.png" alt="complete profile"></figure>
+<<<<<<< HEAD
                     <h5>{{user.nickname}}</h5>
                     <p>{{user.usname}}</p>
+=======
+                    <h5>亮哥</h5>
+                    <p>admin</p>
+>>>>>>> 8bf3f949c749cabbbc5d9840d739542efc097048
                 </div>
                 <div class="clearfix"></div>
             </div>
             <div class="meeting-subject text-center col ">
+<<<<<<< HEAD
                 <p id="roleCur"> </p>
                 <p>注册时间：{{user.regtime}}</p>
                 <p> 最后登录：{{user.lasttime}}</p>
                 <p> 登录IP：{{user.lastip}}</p>
+=======
+                <p> 权限：管理员</p>
+                <p>注册时间：2016-06-04 18:36:59</p>
+                <p> 最后登录：2017-05-20 21:57:30</p>
+                <p> 登录IP：139.226.40.165</p>
+>>>>>>> 8bf3f949c749cabbbc5d9840d739542efc097048
             </div>
             <div class="nav-link"><a href="customerprofile.html" class="btn btn-outline-primary btn-round mr-sm-2">修改资料
                 <i class="fa fa-chevron-right"></i></a></div>
@@ -244,6 +256,7 @@
     </div>
 </div>
 
+<<<<<<< HEAD
 <!--新增团长账号modal-->
 <div class="modal dark_bg fade" style="margin-top: 150px" id="addCaptainModal" tabindex="-1" role="dialog"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -331,6 +344,9 @@
         </div>
     </div>
 </div>
+=======
+
+>>>>>>> 8bf3f949c749cabbbc5d9840d739542efc097048
 <!-- jQuery first, then Tether, then Bootstrap JS. -->
 <script src="js/jquery-2.1.1.min.js" type="text/javascript"></script>
 <script src="vendor/bootstrap4alpha/js/tether.min.js"></script>
@@ -360,6 +376,7 @@
 
 
 <script>
+<<<<<<< HEAD
     var curuser ;
     var currole;
     $(document).ready(function () {
@@ -410,6 +427,68 @@
             $("#roleCur").text('团员')
         }
 
+=======
+    $(document).ready(function () {
+        console.log(sessionStorage.getItem("hxdlusername"));
+        if (sessionStorage.getItem("hxdlusername") == null) {
+            window.location = '/';
+        }
+        /*弹出manager添加modal*/
+        $("#addManagerModalBtn").on('click', function () {
+            console.log('cleartext');
+            $("#usLoginNameforManager").val('');
+            $("#nickNameforManager").val('');
+            $("#inputManagerPSW1").val('');
+            $("#inputManagerPSW2").val('');
+            $("#pswSameWarn").hide();
+            if (($("#checkInputManagePSW").hasClass("has-danger"))) {
+                $("#checkInputManagePSW").removeClass("has-danger");
+            }
+        })
+        /*失去焦点*/
+        $(".inputManagerPSW").blur(function () {
+            console.log('失去焦点');
+            checkManagerPSWSame();
+        });
+
+        /*点击确认进行管理员账号添加*/
+        $("#btnAddManager").on('click', function () {
+            var checkgroup = ['usLoginNameforManager', 'nickNameforManager', 'inputManagerPSW1', 'inputManagerPSW2'];
+            //console.log(checkInputEmpty(checkgroup));
+            if (checkInputEmpty(checkgroup) == 0) {
+                swal("非法输入", "不能输入空值!", "error");
+                return;
+            }
+            if (checkManagerPSWSame() == false) {
+                swal("密码错误", "两次输入的密码不匹配!", "error");
+                return;
+            }
+
+            var jsonToAdd = {
+                usloginname: $("#usLoginNameforManager").val(),
+                usnickname: $("#nickNameforManager").val(),
+                usloginpsw: hex_md5($("#inputManagerPSW1").val())
+            };
+
+            $.post("/dldata/addadmin", jsonToAdd, function (result) {
+                if (result == 'error') {
+                    swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
+                }
+                else {
+                    tablesmanager.row.add([
+
+                        jsonToAdd.usloginname,
+                        jsonToAdd.usloginpsw,
+
+                    ]).draw();
+                    $('#addManagerModal').modal('hide')
+                    swal("操作成功!", "添加管理员成功!", "success");
+                }
+            });
+
+
+        })
+>>>>>>> 8bf3f949c749cabbbc5d9840d739542efc097048
     })
 </script>
 </body>
