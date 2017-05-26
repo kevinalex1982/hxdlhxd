@@ -3,6 +3,8 @@ var router = express.Router();
 var getImages = require('../models/imgList');
 var getDataG = require('../models/DataFromMongo');
 var db = require('../models/dbapi');
+var moment = require('moment');
+
 /* GET home page. */
 
 
@@ -12,15 +14,43 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/checkuserhxdl', function (req, res, next) {
-    console.log(req.body.username);
-    console.log(req.body.password);
+    //console.log(req.body.username);
+    //console.log(req.body.password);
     db.users.checkUserPwd(req.body.username, req.body.password, (err, user) => {
         if (err) {
-            res.send(err);
+            console.log('err');
+            res.render('index',{loginstatus:'登录失败',username:req.body.username});
             return;
         }
         console.log(user);
-        res.render('main', {user: user});
+
+        var clientipaddress = req.headers['x-forwarded-for'] ||
+            req.connection.remoteAddress ||
+            req.socket.remoteAddress ||
+            req.connection.socket.remoteAddress;
+        if (clientipaddress.substr(0, 7) == "::ffff:") {
+            clientipaddress = clientipaddress.substr(7)
+        }
+
+
+        moment.locale('zh-cn');
+
+        console.log(moment().format('lll'));
+        // 更新用户上次登录IP
+        // 1. userid
+        // 2. 新的IP
+        // 3. 回调，err如果成功为null，否则表示失败。属性error表示错误描述。
+        db.users.updateUserLastIp(user.id, clientipaddress, (err) => {
+            if (err) {
+
+            }
+            user.last_login_ip=clientipaddress;
+            res.render('main', {user: user});
+            console.log("update last ip success!");
+        });
+
+
+
     });
 
 

@@ -82,8 +82,8 @@ function addUser(user, callback)
   if (users.length == 0) user.id = 1;
   else user.id = users[users.length - 1].id + 1;
 
-  //var d = new Date();
-  user.regtime = "";//d.toLocaleString();
+  var d = new Date();
+  user.regtime = d.toLocaleString();
   user.lasttime = "";//d.toLocaleString();
   user.lastip = "";
   user.status = 0;
