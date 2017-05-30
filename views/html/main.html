@@ -379,6 +379,52 @@
 </div>
 
 
+<!--修改用户modal-->
+<div class="modal dark_bg fade" style="margin-top: 150px" id="updataUser" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">修改用户</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label class="form-control-label">登录账号:</label>
+                    <input type="text" class="form-control" id="usUserinfoForUpd" readonly>
+
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label">用户昵称:</label>
+                    <input type="text" class="form-control" id="nickNameForUpd">
+                    <small id="UserForUpdAddHelp2" class="form-text text-muted">可以是中文，不能为空</small>
+                </div>
+
+                <div class="form-group " id="UserForUpdPswBorder1">
+                    <label class="sr-only">密码</label>
+                    <input type="password" class="form-control inputManagerPSW" id="inputUserForUpdPSW1"
+                           placeholder="密码">
+                    <small id="UserForUpdAddHelp4" class="form-text text-muted">空为不修改</small>
+                </div>
+                <div id="UserForUpdPswBorder2" class="form-group ">
+                    <label class="sr-only">确认密码</label>
+                    <input type="password" class="form-control inputManagerPSW" id="inputUserForUpdPSW2"
+                           placeholder="确认密码">
+                    <div class="form-control-feedback " id="pswUserForUpdSameWarn">请确认两次输入的密码相同</div>
+                    <small id="UserForUpdAddHelp5" class="form-text text-muted">空为不修改</small>
+                    <small id="UserForUpdAddHelp3" class="form-text text-muted">两次密码需保持一致</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="btnUserForUpdConfirm">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- jQuery first, then Tether, then Bootstrap JS. -->
 <script src="js/jquery-2.1.1.min.js" type="text/javascript"></script>
 <script src="vendor/bootstrap4alpha/js/tether.min.js"></script>
@@ -420,7 +466,7 @@
             $("#roleCur").text('管理员')
             /*点击确认进行管理员账号添加*/
             $("#btnAddManager").on('click', function () {
-                console.log('check');
+
                 var checkgroup = ['usLoginNameforManager', 'nickNameforManager', 'inputManagerPSW1', 'inputManagerPSW2'];
                 //console.log(checkInputEmpty(checkgroup));
                 if (checkInputEmpty(checkgroup) == 0) {
@@ -438,7 +484,7 @@
                     usloginpsw: hex_md5($("#inputManagerPSW1").val())
                 };
 
-                $.post("/dldata/addadmin", jsonToAdd, function (result) {
+                $.post("/dldata/addAdmin", jsonToAdd, function (result) {
                     if (result == 'error') {
                         swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
                     }
@@ -452,6 +498,76 @@
 
 
             })
+            /*点击确认进行团长账号添加*/
+            $("#btnAddCaptain").on('click', function () {
+
+                var checkgroup = ['usLoginNameforCaptain', 'nickNameforCaptain', 'inputCaptainPSW1', 'inputCaptainPSW2'];
+                //console.log(checkInputEmpty(checkgroup));
+                if (checkInputEmpty(checkgroup) == 0) {
+                    swal("非法输入", "不能输入空值!", "error");
+                    return;
+                }
+                if (checkCaptainPSWSame() == false) {
+                    swal("密码错误", "两次输入的密码不匹配!", "error");
+                    return;
+                }
+
+                var jsonToAdd = {
+                    usloginname: $("#usLoginNameforCaptain").val(),
+                    usnickname: $("#nickNameforCaptain").val(),
+                    usloginpsw: hex_md5($("#inputCaptainPSW1").val())
+                };
+
+                $.post("/dldata/addCaptain", jsonToAdd, function (result) {
+                    if (result == 'error') {
+                        swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
+                    }
+                    else {
+                        console.log(result);
+                        tablescaptain.row.add(result).draw();
+                        $('#addCaptainModal').modal('hide')
+                        swal("操作成功!", "添加团长成功!", "success");
+                    }
+                });
+
+
+            })
+
+            /*点击确认进行团员账号添加*/
+            $("#btnAddMember").on('click', function () {
+
+                var checkgroup = ['usLoginNameforMember', 'nickNameforMember', 'inputMemberPSW1', 'inputMemberPSW2'];
+                //console.log(checkInputEmpty(checkgroup));
+                if (checkInputEmpty(checkgroup) == 0) {
+                    swal("非法输入", "不能输入空值!", "error");
+                    return;
+                }
+                if (checkMemberPSWSame() == false) {
+                    swal("密码错误", "两次输入的密码不匹配!", "error");
+                    return;
+                }
+
+                var jsonToAdd = {
+                    usloginname: $("#usLoginNameforMember").val(),
+                    usnickname: $("#nickNameforMember").val(),
+                    usloginpsw: hex_md5($("#inputMemberPSW1").val())
+                };
+
+                $.post("/dldata/addMember", jsonToAdd, function (result) {
+                    if (result == 'error') {
+                        swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
+                    }
+                    else {
+                        console.log(result);
+                        tablesmember.row.add(result).draw();
+                        $('#addMemberModal').modal('hide')
+                        swal("操作成功!", "添加团员成功!", "success");
+                    }
+                });
+
+
+            })
+
         }
         else if (currole == '2') {
             $("#roleCur").text('团长')
@@ -460,6 +576,7 @@
             $("#roleCur").text('团员')
         }
 
+        /*弹出修改资料窗口*/
         $("#btnchangeProfile").on('click', function () {
             $("#usChangeProfile").val(curuser);
             $("#nickNameChangeProfile").val(curusernickname);
@@ -468,6 +585,7 @@
 
         })
 
+        /*修改资料窗口的确认按钮*/
         $("#btnChangeProfileConfirm").on('click', function () {
 
             var checkgroup = ['nickNameChangeProfile'];
@@ -506,6 +624,42 @@
             $("#nickNameChangeProfile").val(curusernickname);
             $("#inputChangeProfilePSW1").val("");
             $("#inputChangeProfilePSW2").val("");
+
+
+        })
+
+        /*修改用户窗口的确认按钮*/
+        $("#btnUserForUpdConfirm").on('click', function () {
+
+            var checkgroup = ['nickNameForUpd'];
+            if (checkInputEmpty(checkgroup) == 0) {
+                swal("非法输入", "不能输入空值!", "error");
+                return;
+            }
+
+            if (checkPSWSame('inputUserForUpdPSW1', 'inputUserForUpdPSW2', 'pswUserForUpdSameWarn') == false) {
+                swal("密码错误", "两次输入的密码不匹配!", "error");
+                return;
+            }
+
+            console.log($("#inputUserForUpdPSW1").val() == "");
+            var jsonToUpd = {
+                usID: userIDforUpd,
+                usnickname: $("#nickNameForUpd").val(),
+                usloginpsw: $("#inputUserForUpdPSW1").val() == "" ? "" : hex_md5($("#inputUserForUpdPSW1").val())
+            };
+
+
+            $.post("/dldata/updUser", jsonToUpd, function (result) {
+                if (result == 'error') {
+                    swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
+                }
+                else {
+                    curtableForUpd.ajax.reload();
+                    $('#updataUser').modal('hide')
+                    swal("操作成功!", "修改用户成功!", "success");
+                }
+            });
 
 
         })

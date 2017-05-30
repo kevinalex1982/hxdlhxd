@@ -49,12 +49,43 @@ router.post('/addAdmin', function (req, res, next) {
     });
 })
 
+router.post('/addCaptain', function (req, res, next) {
+    // 添加团长
+// 1： 用户登录名，2：昵称，3：密码（经过md5运算），4：回调，err如果成功为null，否则表示失败。属性error表示错误描述。
+    db.users.addTZ(req.body.usloginname, req.body.usnickname, req.body.usloginpsw, (err, user) => {
+        if (err) {
+            res.send("error");
+            console.log(err.error);
+        } else {
+            res.send(user);
+            console.log(`======= add 团长 success`);
+        }
+
+    });
+})
+
+
+router.post('/addMember', function (req, res, next) {
+
+// 添加团员
+// 1： 用户登录名，2：昵称，3：密码（经过md5运算），4：回调，err如果成功为null，否则表示失败。属性error表示错误描述。
+    db.users.addTY(req.body.usloginname, req.body.usnickname, req.body.usloginpsw, (err, user) => {
+        if (err) {
+            res.send("error");
+            console.log(err.error);
+        } else {
+            res.send(user);
+            console.log(`======= add 团员 success`);
+        }
+    });
+})
+
 
 router.post('/updUser', function (req, res, next) {
-    console.log(req.body.usloginpsw==""?null:req.body.usloginpsw);
+    console.log(req.body.usloginpsw == "" ? null : req.body.usloginpsw);
 // 修改用户
 // 1：用户id，2：昵称，3：密码（为null不修改），4：回调，err如果成功为null，否则表示失败。属性error表示错误描述。
-    db.users.updateUser(req.body.usID, req.body.usnickname, req.body.usloginpsw==""?null:req.body.usloginpsw, (err) => {
+    db.users.updateUser(req.body.usID, req.body.usnickname, req.body.usloginpsw == "" ? null : req.body.usloginpsw, (err) => {
         if (err) {
             res.send("error");
             console.log(err.error);
@@ -68,5 +99,18 @@ router.post('/updUser', function (req, res, next) {
 
 })
 
+router.post('/delUser', function (req, res, next) {
+// 删除用户
+// 1：用户id，2：回调，err如果成功为null，否则表示失败。属性error表示错误描述。
+    db.users.delUser(req.body.usID, (err) => {
+        if (err) {
+            res.send("error");
+            console.log(err.error);
 
+        } else {
+            res.send('success');
+            console.log('======= del user success');
+        }
+    });
+})
 module.exports = router;

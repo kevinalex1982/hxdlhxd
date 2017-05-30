@@ -116,31 +116,9 @@
 
 
     var columnMember;
-    var lang = {
-        "sProcessing": "处理中...",
-        "sLengthMenu": "每页 _MENU_ 条记录",
-        "sZeroRecords": "没有匹配结果",
-        "sInfo": "当前显示第 _START_ 至第 _END_ 条记录，共 _TOTAL_ 条记录。",
-        "sInfoEmpty": "当前显示第 0 至 0 条记录，共 0 条记录",
-        "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-        "sInfoPostFix": "",
-        "sSearch": "搜索:",
-        "sUrl": "",
-        "sEmptyTable": "表中数据为空",
-        "sLoadingRecords": "载入中...",
-        "sInfoThousands": ",",
-        "oPaginate": {
-            "sFirst": "首页",
-            "sPrevious": "上页",
-            "sNext": "下页",
-            "sLast": "末页",
-            "sJump": "跳转"
-        },
-        "oAria": {
-            "sSortAscending": ": 以升序排列此列",
-            "sSortDescending": ": 以降序排列此列"
-        }
-    };
+
+    var userIDforUpd=-1;
+    var curtableForUpd=null;
     $(document).ready(function () {
 
         if (currole == '1') {
@@ -234,30 +212,48 @@
         // 数据编辑
         $('#dataTables-manager tbody').on('click', 'button.datatableEdit', function () {
             var data = tablesmanager.row($(this).parents('tr')).data();
-            console.log(data);
-            /*    var fields = $("#add-form").serializeArray();
-             jQuery.each( fields, function(i, field){
-             //jquery根据name属性查找
-             $(":input[name='"+field.name+"']").val(data[i]);
-             });
-             $(":input[name='mark']").val("edit");
-             $("#modal-form").modal("show");//弹出框show*/
+
+            openUpdModalInitParam(data,tablesmanager);
 
         });
+        /*删除用户*/
+        $('#dataTables-manager tbody').on('click', 'button.datatableDelete', function () {
+            var data = tablesmanager.row($(this).parents('tr')).data();
 
+            swal({
+                    title: "确定要删除吗?",
+                    text: "删除后无法恢复选项!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "删除!",
+                    closeOnConfirm: false
+                },
+                function(){
+                    $.post("/dldata/delUser", {usID:data.id}, function (result) {
+                        if(result=='success')
+                        {
+                            tablesmanager.ajax.reload();
+                            swal("删除成功!", "该行数据被删除.", "success");
+                        }
+                        else
+                        {
+                            swal("删除失败!", "请联系管理员.", "error");
+                        }
+                    })
 
+                });
+
+        });
         /*弹出manager添加modal*/
         $("#addManagerModalBtn").on('click', function () {
             console.log('cleartext');
             checkManagerPSWSame();
-            /* $("#usLoginNameforManager").val('');
-             $("#nickNameforManager").val('');
-             $("#inputManagerPSW1").val('');
-             $("#inputManagerPSW2").val('');
-             $("#pswSameWarn").hide();
-             if (($("#checkInputManagePSW").hasClass("has-danger"))) {
-             $("#checkInputManagePSW").removeClass("has-danger");
-             }*/
+            $("#usLoginNameforManager").val('');
+            $("#nickNameforManager").val('');
+            $("#inputManagerPSW1").val('');
+            $("#inputManagerPSW2").val('');
+            $("#pswSameWarn").hide();
         })
 
 
@@ -289,14 +285,37 @@
             // 数据编辑
             $('#dataTables-captain tbody').on('click', 'button.datatableEdit', function () {
                 var data = tablescaptain.row($(this).parents('tr')).data();
-                console.log(data);
-                /*    var fields = $("#add-form").serializeArray();
-                 jQuery.each( fields, function(i, field){
-                 //jquery根据name属性查找
-                 $(":input[name='"+field.name+"']").val(data[i]);
-                 });
-                 $(":input[name='mark']").val("edit");
-                 $("#modal-form").modal("show");//弹出框show*/
+
+                openUpdModalInitParam(data,tablescaptain);
+
+            });
+            /*删除用户*/
+            $('#dataTables-captain tbody').on('click', 'button.datatableDelete', function () {
+                var data = tablescaptain.row($(this).parents('tr')).data();
+
+                swal({
+                        title: "确定要删除吗?",
+                        text: "删除后无法恢复选项!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "删除!",
+                        closeOnConfirm: false
+                    },
+                    function(){
+                        $.post("/dldata/delUser", {usID:data.id}, function (result) {
+                            if(result=='success')
+                            {
+                                tablescaptain.ajax.reload();
+                                swal("删除成功!", "该行数据被删除.", "success");
+                            }
+                            else
+                            {
+                                swal("删除失败!", "请联系管理员.", "error");
+                            }
+                        })
+
+                    });
 
             });
         } else {
@@ -344,14 +363,36 @@
             // 数据编辑
             $('#dataTables-member tbody').on('click', 'button.datatableEdit', function () {
                 var data = tablesmember.row($(this).parents('tr')).data();
-                console.log(data);
-                /*    var fields = $("#add-form").serializeArray();
-                 jQuery.each( fields, function(i, field){
-                 //jquery根据name属性查找
-                 $(":input[name='"+field.name+"']").val(data[i]);
-                 });
-                 $(":input[name='mark']").val("edit");
-                 $("#modal-form").modal("show");//弹出框show*/
+                openUpdModalInitParam(data,tablesmember);
+
+            });
+            /*删除用户*/
+            $('#dataTables-member tbody').on('click', 'button.datatableDelete', function () {
+                var data = tablesmember.row($(this).parents('tr')).data();
+
+                swal({
+                        title: "确定要删除吗?",
+                        text: "删除后无法恢复选项!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "删除!",
+                        closeOnConfirm: false
+                    },
+                    function(){
+                        $.post("/dldata/delUser", {usID:data.id}, function (result) {
+                            if(result=='success')
+                            {
+                                tablesmember.ajax.reload();
+                                swal("删除成功!", "该行数据被删除.", "success");
+                            }
+                            else
+                            {
+                                swal("删除失败!", "请联系管理员.", "error");
+                            }
+                        })
+
+                    });
 
             });
         } else {
@@ -563,5 +604,18 @@
             isSame = true;
         }
         return isSame;
+    }
+
+
+    function openUpdModalInitParam(seldata,curtable) {
+        curtableForUpd =curtable;
+        console.log(seldata);
+        userIDforUpd=seldata.id;
+        $("#usUserinfoForUpd").val(seldata.usname);
+        $("#nickNameForUpd").val(seldata.nickname);
+        $("#inputUserForUpdPSW1").val("");
+        $("#inputUserForUpdPSW2").val("");
+        $("#updataUser").modal("show");//弹出框show
+
     }
 </script>
