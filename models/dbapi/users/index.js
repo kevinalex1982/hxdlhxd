@@ -146,7 +146,7 @@ exports.updateUser = (id, nickname, pwd, callback) => {
   if (index > -1)
   {
     users[index].nickname = nickname;
-    if (pwd != null || pwd != '')
+    if (pwd != null && pwd != '')
       users[index].pwd = pwd;
   }
 
@@ -193,5 +193,17 @@ exports.updateUserLastIp = (id, newip, callback) => {
     }
   }
 
+  callback(error);
+};
+
+exports.updateUserLastTime = (id, callback) => {
+  var error = { error: "not found" };
+  for (var i = 0; i < users.length; i++) {
+    if (users[i].id == id) {
+      users[i].lasttime = new Date().toLocaleString();
+      error = null;
+      break;
+    }
+  }
   callback(error);
 };

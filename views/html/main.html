@@ -179,7 +179,7 @@
                 <div class="user-details">
                     <figure><img src="img/user-header.png" alt="complete profile"></figure>
 
-                    <h5>{{user.nickname}}</h5>
+                    <h5 id="curnick">{{user.nickname}}</h5>
                     <p>{{user.usname}}</p>
 
                 </div>
@@ -187,21 +187,20 @@
             </div>
             <div class="meeting-subject text-center col ">
 
-                <p id="roleCur"> </p>
+                <p id="roleCur"></p>
                 <p>注册时间：{{user.regtime}}</p>
                 <p> 最后登录：{{user.lasttime}}</p>
                 <p> 登录IP：{{user.lastip}}</p>
 
             </div>
-            <div class="nav-link"><a href="customerprofile.html" class="btn btn-outline-primary btn-round mr-sm-2">修改资料
+            <div class="nav-link"><a data-toggle='modal' data-target='#changeProfile' id='btnchangeProfile'
+                                     class="btn btn-outline-primary btn-round mr-sm-2">修改资料
                 <i class="fa fa-chevron-right"></i></a></div>
-            <div class="nav-link"><a href="customerprofile.html" class="btn btn-outline-primary btn-round mr-sm-2">退出 <i
+            <div class="nav-link"><a href="/" class="btn btn-outline-primary btn-round mr-sm-2">退出 <i
                     class="fa fa-chevron-right"></i></a></div>
         </li>
     </ul>
     <hr>
-
-
 </div>
 
 <!--新增管理员账号modal-->
@@ -247,8 +246,6 @@
         </div>
     </div>
 </div>
-
-<<<<<<< HEAD
 <!--新增团长账号modal-->
 <div class="modal dark_bg fade" style="margin-top: 150px" id="addCaptainModal" tabindex="-1" role="dialog"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -292,7 +289,6 @@
         </div>
     </div>
 </div>
-
 <!--新增团员账号modal-->
 <div class="modal dark_bg fade" style="margin-top: 150px" id="addMemberModal" tabindex="-1" role="dialog"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -336,9 +332,53 @@
         </div>
     </div>
 </div>
-=======
+<!--修改资料modal-->
+<div class="modal dark_bg fade" style="margin-top: 150px" id="changeProfile" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">修改资料</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
 
->>>>>>> 8bf3f949c749cabbbc5d9840d739542efc097048
+                <div class="form-group">
+                    <label class="form-control-label">登录账号:</label>
+                    <input type="text" class="form-control" id="usChangeProfile" readonly>
+
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label">用户昵称:</label>
+                    <input type="text" class="form-control" id="nickNameChangeProfile">
+                    <small id="ChangeProfileAddHelp2" class="form-text text-muted">可以是中文，不能为空</small>
+                </div>
+
+                <div class="form-group " id="ChangeProfilePswBorder1">
+                    <label class="sr-only">密码</label>
+                    <input type="password" class="form-control inputManagerPSW" id="inputChangeProfilePSW1"
+                           placeholder="密码">
+                    <small id="ChangeProfileAddHelp4" class="form-text text-muted">空为不修改</small>
+                </div>
+                <div id="ChangeProfilePswBorder2" class="form-group ">
+                    <label class="sr-only">确认密码</label>
+                    <input type="password" class="form-control inputManagerPSW" id="inputChangeProfilePSW2"
+                           placeholder="确认密码">
+                    <div class="form-control-feedback " id="pswChangeProfileSameWarn">请确认两次输入的密码相同</div>
+                    <small id="ChangeProfileAddHelp5" class="form-text text-muted">空为不修改</small>
+                    <small id="ChangeProfileAddHelp3" class="form-text text-muted">两次密码需保持一致</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="btnChangeProfileConfirm">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- jQuery first, then Tether, then Bootstrap JS. -->
 <script src="js/jquery-2.1.1.min.js" type="text/javascript"></script>
 <script src="vendor/bootstrap4alpha/js/tether.min.js"></script>
@@ -365,18 +405,19 @@
 <script src="js/md5.js"></script>
 <script src="js/normalKV.js"></script>
 <script src="jscss/sweetalert/sweetalert-dev.js"></script>
-
-
+<script src="js/main.js"></script>
 <script>
-
-    var curuser ;
+    var curuser;
     var currole;
+    var curuserid;
+    var curusernickname;
     $(document).ready(function () {
         curuser = '{{user.usname}}';
-        currole='{{user.role}}';
-        if(currole == '1')
-        {
-           $("#roleCur").text('管理员')
+        currole = '{{user.role}}';
+        curuserid = '{{user.id}}';
+        curusernickname = '{{user.nickname}}';
+        if (currole == '1') {
+            $("#roleCur").text('管理员')
             /*点击确认进行管理员账号添加*/
             $("#btnAddManager").on('click', function () {
                 console.log('check');
@@ -412,14 +453,62 @@
 
             })
         }
-        else if(currole == '2'){
+        else if (currole == '2') {
             $("#roleCur").text('团长')
         }
-        else if(currole == '3'){
+        else if (currole == '3') {
             $("#roleCur").text('团员')
         }
 
+        $("#btnchangeProfile").on('click', function () {
+            $("#usChangeProfile").val(curuser);
+            $("#nickNameChangeProfile").val(curusernickname);
+            $("#inputChangeProfilePSW1").val("");
+            $("#inputChangeProfilePSW2").val("");
 
+        })
+
+        $("#btnChangeProfileConfirm").on('click', function () {
+
+            var checkgroup = ['nickNameChangeProfile'];
+            if (checkInputEmpty(checkgroup) == 0) {
+                swal("非法输入", "不能输入空值!", "error");
+                return;
+            }
+
+            if (checkPSWSame('inputChangeProfilePSW1', 'inputChangeProfilePSW2', 'pswChangeProfileSameWarn') == false) {
+                swal("密码错误", "两次输入的密码不匹配!", "error");
+                return;
+            }
+
+            console.log($("#inputChangeProfilePSW1").val() == "");
+            var jsonToUpd = {
+                usID: curuserid,
+                usnickname: $("#nickNameChangeProfile").val(),
+                usloginpsw: $("#inputChangeProfilePSW1").val() == "" ? "" : hex_md5($("#inputChangeProfilePSW1").val())
+            };
+
+            curusernickname = $("#nickNameChangeProfile").val();
+            $.post("/dldata/updUser", jsonToUpd, function (result) {
+                if (result == 'error') {
+                    swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
+                }
+                else {
+
+                    $("#curnick").text(curusernickname);
+                    $('#changeProfile').modal('hide')
+                    swal("操作成功!", "修改资料成功!", "success");
+                }
+            });
+
+
+            $("#usChangeProfile").val(curuser);
+            $("#nickNameChangeProfile").val(curusernickname);
+            $("#inputChangeProfilePSW1").val("");
+            $("#inputChangeProfilePSW2").val("");
+
+
+        })
     })
 </script>
 </body>

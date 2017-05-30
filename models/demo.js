@@ -36,10 +36,10 @@ db.users.addTY('ty2', '团员3', 'e10adc3949ba59abbe56e057f20f883e', (err, user)
 
 // 修改用户
 // 1：用户id，2：昵称，3：密码（为null不修改），4：回调，err如果成功为null，否则表示失败。属性error表示错误描述。
-// db.users.updateUser(4, '昵称3', null, (err) => {
-//   if (err) { console.log(err.error); return; };
-//   console.log('======= edit success');
-// });
+db.users.updateUser(4, '昵称3', null, (err) => {
+  if (err) { console.log(err.error); return; };
+  console.log('======= edit success');
+});
 
 // db.users.all_users(1, 20, 0, (err, users) => {
 //   if (err) { console.log(err.error); return; };
@@ -80,6 +80,14 @@ db.users.checkUserPwd('admin', 'e10adc3949ba59abbe56e057f20f883e', (err, user) =
 db.users.updateUserLastIp(1, "1.1.1.2", (err) => {
   if (err) { console.log(err); return; }
   console.log("update last ip success!");
+});
+
+// 更新用户上次登录时间
+// 1. userid
+// 2. 回调，err如果成功为null，否则表示失败。属性error表示错误描述。
+db.users.updateUserLastTime(1, (err) => {
+  if (err) { console.log(err); return; }
+  console.log("update last time success!");
 });
 
 // 查询所有用户
