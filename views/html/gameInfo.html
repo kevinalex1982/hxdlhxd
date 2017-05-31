@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-sm-16">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">游戏信息
+                </h5>
+            </div>
+            <div class="card-block">
+
+                        <table class="table " id="dataTables-game">
+                            <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>分配用户</th>
+                                <th>游戏昵称</th>
+                                <th>游戏内容</th>
+                                <th>淘宝订单号</th>
+                                <th>添加时间</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+   /* var tablesgame;
+    var columnGame = [
+        {"data": "id"},
+        {"data": "usname"},
+        {"data": "nickname"},
+        {
+            "data": null,
+            "defaultContent": "<label  class='label-info'>管理员</label>"
+        },
+        {"data": "regtime"},
+        {"data": "lasttime"},
+        {"data": "lastip"},
+        {
+            "data": null,
+            "title": "操作",
+            "defaultContent": "<button type='button' class='btn btn-primary btn-sm datatableEdit'>修改</button> <button type='button' class='btn btn-danger btn-sm datatableDelete'>删除</button>"
+        }
+    ];*/
+
+   $(document).ready(function () {
+       $.post("/dldata/getGames", {start:0,length:20,usID:1}, function (result) {
+          console.log(result);
+       })
+   })
+</script>
