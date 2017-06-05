@@ -4,7 +4,7 @@ var getImages = require('../models/imgList');
 var getDataG = require('../models/DataFromMongo');
 var db = require('../models/dbapi');
 var moment = require('moment');
-
+db.useRethinkDb(); // 默认内存数据库，使用这个切换成实际部署数据库。
 /* GET home page. */
 
 

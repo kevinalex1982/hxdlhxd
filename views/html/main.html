@@ -144,12 +144,13 @@
         <li class="nav-item "><a class="nav-link active" href="" ui-sref=".dataInfo" id="indexhtmlA"><i
                 class="fa fa-database left-icon square"></i>后台管理</a>
         </li>
-        <li class="nav-item"><a class="nav-link " href="" ui-sref=".userInfo"><i
+        <li class="nav-item" id="usernav"><a class="nav-link " href="" ui-sref=".userInfo"><i
                 class="fa fa-file-o left-icon square"></i>账号管理</a>
         </li>
-        <li class="nav-item"><a class="nav-link" href="" ui-sref=".gameInfo"><i class="fa fa-male left-icon square"></i>游戏管理</a>
+        <li class="nav-item " id="gamenav"><a class="nav-link " href="" ui-sref=".gameInfo"><i
+                class="fa fa-male left-icon square"></i>游戏管理</a>
         </li>
-        <li class="nav-item"><a class="nav-link" href="" ui-sref=".userInfo"><i
+        <li class="nav-item " id="lognav"><a class="nav-link " href="" ui-sref=".userInfo"><i
                 class="fa fa-list left-icon circle"></i>操作日志</a></li>
 
     </ul>
@@ -570,10 +571,13 @@
 
         }
         else if (currole == '2') {
-            $("#roleCur").text('团长')
+            $("#roleCur").text('团长');
         }
         else if (currole == '3') {
-            $("#roleCur").text('团员')
+            $("#roleCur").text('团员');
+            $("#usernav").attr("hidden", "");
+            $("#gamenav").attr("hidden", "");
+            $("#lognav").attr("hidden", "");
         }
 
         /*弹出修改资料窗口*/

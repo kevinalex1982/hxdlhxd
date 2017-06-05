@@ -6,9 +6,13 @@ var db = require('../');
 
 exports.all_games = (pageIndex, pageCount, userid, callback) => {
 
-  var matchedGames = games.filter((game) => {
-    return game.userid == userid;
-  });
+  var matchedGames = null;
+  if (userid == 0) { matchedGames = games; }
+  else {
+    matchedGames = games.filter((game) => {
+      return game.userid == userid;
+    });
+  }
 
   var sliceStart = (pageIndex - 1) * pageCount;
   var sliceEnd = sliceStart + pageCount;

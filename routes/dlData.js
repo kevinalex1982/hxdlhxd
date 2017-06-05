@@ -4,23 +4,31 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../models/dbapi');
-
+db.useMemDb(); // 默认内存数据库，使用这个切换成实际部署数据库。*/
 
 router.post('/getUsers', function (req, res, next) {
-
+console.log(Number(Number(req.body.start / req.body.length).toFixed(0))+1);
+console.log(req.body.length);
+console.log(Number(req.body.param.role));
 
 // 查询所有用户
 // 1：页号，从1开始，2：每页记录条数，3：role，0所有，1管理员，2团长，3团员
 // 4：回调，err如果成功为null，否则表示失败。属性error表示错误描述。users对应的用户信息
-    db.users.all_users(Number(Number(req.body.start / req.body.length).toFixed(0))+1, req.body.length, req.body.param.role, (err, users) => {
+    db.users.all_users(Number(Number(req.body.start / req.body.length).toFixed(0))+1, Number(req.body.length), Number(req.body.param.role), (err, users) => {
+        //db.users.all_users(1, 15, 1, (err, users) => {
         if (err) {
+
+            console.log(err);
             res.send('error');
         } else {
+            console.log(users);
+
             var jsonSend = {
                 data: users.users, "iTotalDisplayRecords": users.total,
                 "iTotalRecords": users.total,
                 "message": "success"
             };
+
             res.send(jsonSend);
         }
     });
@@ -111,12 +119,13 @@ router.post('/delUser', function (req, res, next) {
 
 router.post('/getGames', function (req, res, next) {
 
-   /* console.log(Number(Number(req.body.start / req.body.length).toFixed(0))+1);
+/*    console.log(Number(Number(req.body.start / req.body.length).toFixed(0))+1);
     console.log(Number(req.body.length));
     console.log(Number(req.body.usID));*/
-
+    console.log(req.body);
+   console.log(req.body.param.usID);
     // 查询所有游戏 userid=0 返回所有
-    db.games.all_games(Number(Number(req.body.start / req.body.length).toFixed(0))+1, Number(req.body.length),  Number(req.body.usID), (err, games) => {
+    db.games.all_games(Number(Number(req.body.start / req.body.length).toFixed(0))+1, Number(req.body.length),  req.body.param.usID, (err, games) => {
         if (err) {
             res.send('error');
         } else {
