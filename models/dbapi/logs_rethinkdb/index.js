@@ -27,7 +27,10 @@ exports.getlogs = (pageIndex, pageCount, userid, callback) => {
   }
 
   var q = rdb.r.table('logs').orderBy({index: rdb.r.desc('addtime')});
-  if (userid > 0) q = q.filter({userid: userid});
+  if (userid != null && userid != '') q = q.filter({userid: userid});
+  q = q.eqJoin('userid', rdb.r.table('users'));
+  q = q.without({right: ["id",'pwd','lastip','lasttime','role','status','regtime']});
+  q = q.zip();
 
   var qcount = q.count();
   qcount.run(rdb.conn, (err, count) => {

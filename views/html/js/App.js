@@ -16,7 +16,12 @@ myApp.config(function ($stateProvider, $urlRouterProvider) {
         .state("gameInfo", {
             url:"/gameInfo",
             templateUrl: "gameInfo.html"
-        });
+        })
+        .state("logInfo", {
+        url:"/logInfo",
+        templateUrl: "logInfo.html"
+    });
+
 });/**
  * Created by kevin on 2016/7/4.
  */

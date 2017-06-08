@@ -25,7 +25,7 @@ r.connect({db: rconf.db, host: rconf.host, port: rconf.port}, (err, conn) => {
         var indexes = {
           'logs': ['userid', 'addtime'],
           'users': ['role', 'usname'],
-          'games': ['userid'],
+          'games': ['userid', 'addtime'],
           'tasks': ['gid'],
           'progresses': ['taskid']
         }

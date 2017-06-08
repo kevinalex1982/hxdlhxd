@@ -31,48 +31,92 @@
 </div>
 <script>
     var tablesgame;
-    var columnGame = [
-
-        {"data": "nickname"},
-
-        {"data": "gnickname"},
-        {"data": "content"},
-        {"data": "tbdd"},
-        {"data": "addtime"},
-        {
-            "data": "status",
-
-            "render": function (data, type, full, meta) {
-                console.log(data);
-                if (data == '0') {
-                    return '<span class="status danger">Inactive</span>';
-                } else {
-
-                    return '<span class="status success">Active</span>';
-                }
-
-            }
-        },
-        {
-            "data": null,
-            "title": "操作",
-            "defaultContent": "<button type='button' class='btn btn-primary btn-sm datatableEdit'>修改</button>" +
-            " <button type='button' class='btn btn-danger btn-sm datatableDelete'>删除</button>" +
-            "<button type='button' class='btn btn-info btn-sm datatableProgress'>任务进度</button>"
-        }
-    ];
-
+    var columnGame;
+    var userCaptainJson;
+    var userMemberJson;
     $(document).ready(function () {
 
-        gameInit();
+        if (currole == '1') {
+            gameInit(1);
+            buildGameTable();
+        }
+        else if (currole == '2') {
+            gameInit(2);
+        }
+        else if (currole == '3') {
+
+        }
+
 
     })
 
 
     /* manager初始化*/
-    function gameInit() {
+    function gameInit(role) {
+        if (role == 1) {
+            columnGame = [
+
+                {"data": "nickname"},
+
+                {"data": "gnickname"},
+                {"data": "content"},
+                {"data": "tbdd"},
+                {"data": "addtime"},
+                {
+                    "data": "status",
+
+                    "render": function (data, type, full, meta) {
+                        console.log(data);
+                        if (data == '0') {
+                            return '<span class="status danger">X</span>';
+                        } else {
+
+                            return '<span class="status success">OK</span>';
+                        }
+
+                    }
+                },
+                {
+                    "data": null,
+                    "title": "操作",
+                    "defaultContent": "<button type='button' class='btn btn-primary btn-sm datatableEditGame'>修改</button>" +
+                    " <button type='button' class='btn btn-danger btn-sm datatableDeleteGame'>删除</button>" +
+                    "<button type='button' class='btn btn-info btn-sm datatableProgress'>任务进度</button>"
+                }
+            ];
+        } else {
+            columnGame = [
+
+                {"data": "nickname"},
+
+                {"data": "gnickname"},
+                {"data": "content"},
+                {"data": "tbdd"},
+                {"data": "addtime"},
+                {
+                    "data": "status",
+
+                    "render": function (data, type, full, meta) {
+                        console.log(data);
+                        if (data == '0') {
+                            return '<span class="status danger">X</span>';
+                        } else {
+
+                            return '<span class="status success">OK</span>';
+                        }
+
+                    }
+                },
+                {
+                    "data": null,
+                    "title": "操作",
+                    "defaultContent": "<button type='button' class='btn btn-primary btn-sm datatableEditGame'>修改</button>" +
+                    "<button type='button' class='btn btn-info btn-sm datatableProgress'>任务进度</button>"
+                }
+            ];
+        }
         /* 生成datatable游戏*/
-        tablesmanager = $('#dataTables-game').DataTable({
+        tablesgame = $('#dataTables-game').DataTable({
             "dom": 'r<"pull-right"<"toolbarGame">>tip',
             lengthChange: false,
             responsive: true,
@@ -119,21 +163,22 @@
                     //达到多列排序的目的。
                     //search[regex]的默认值为"false"，search[value]里存放的是待搜索字符串，如果没有东西要Search则里面是空字符串。
                     return $.extend({}, d, {
-                        'param': {usID: 0}//自己增加个data请求参数
+                        'param': {usID: null, curuser: loginUser}//自己增加个data请求参数
                     })
                 },
                 dataSrc: function (json) {
                     console.log('process response data from server side before display.');
                     return json.data;
                 },
-                url: "/dldata/getGames",
+                url: "/dldata/getGameWithAssigners",
                 type: "POST",
                 crossDomain: true
             }
         });
 
-
-        $("div.toolbarGame").html("<button type='button' class='btn btn-primary btn-sm ' data-toggle='modal' data-target='#addManagerModal' id='addManagerModalBtn'>添加游戏</button>");
+        if (role == 1) {
+            $("div.toolbarGame").html("<button type='button' class='btn btn-primary btn-sm ' data-toggle='modal' data-target='#addGameModal' id='addGameModalBtn'>添加游戏</button>");
+        }
         // 数据编辑
         $('#dataTables-game tbody').on('click', 'button.datatableEdit', function () {
             var data = tablesmanager.row($(this).parents('tr')).data();
@@ -168,23 +213,32 @@
                 });
 
         });
-        /*弹出manager添加modal*/
-        $("#addManagerModalBtn").on('click', function () {
-            console.log('cleartext');
-            checkManagerPSWSame();
-            $("#usLoginNameforManager").val('');
-            $("#nickNameforManager").val('');
-            $("#inputManagerPSW1").val('');
-            $("#inputManagerPSW2").val('');
-            $("#pswSameWarn").hide();
+        $.post("/dldata/getUsers", {start: 0, length: 1000, param: {role: 2}}, function (result) {
+            userCaptainJson = result.data;
         })
+        $.post("/dldata/getUsers", {start: 0, length: 1000, param: {role: 3}}, function (result) {
+            userMemberJson = result.data;
 
-
+        })
+        $("#addGameModalBtn").on('click', function () {
+            /* console.log(userCaptainJson);
+             console.log(userMemberJson);*/
+            $("#optGCaptain").empty();
+            $.each(userCaptainJson, function (index, item) {
+                $("#optGCaptain").prepend("<option value=" + item.id + ">" + item.nickname + "</option>"); //为Select插入一个Option(第一个位置)
+            })
+            $("#optGMember").empty();
+            $.each(userMemberJson, function (index, item) {
+                $("#optGMember").prepend("<option value=" + item.id + ">" + item.nickname + "</option>"); //为Select插入一个Option(第一个位置)
+            })
+        })
     }
 
+
+    /*测试接口*/
     function buildGameTable() {
-        $.post("/dldata/getGames", {start: 0, length: 20, usID: 0}, function (result) {
-            console.log(result);
-        })
+        /* $.post("/dldata/getGames", {start: 0, length: 20, usID: 0}, function (result) {
+         console.log(result);
+         })*/
     }
 </script>

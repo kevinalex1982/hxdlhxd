@@ -234,7 +234,7 @@
                     closeOnConfirm: false
                 },
                 function(){
-                    $.post("/dldata/delUser", {usID:data.id}, function (result) {
+                    $.post("/dldata/delUser", {usID:data.id,curuser:loginUser}, function (result) {
                         if(result=='success')
                         {
                             tablesmanager.ajax.reload();
@@ -308,7 +308,7 @@
                         closeOnConfirm: false
                     },
                     function(){
-                        $.post("/dldata/delUser", {usID:data.id}, function (result) {
+                        $.post("/dldata/delUser", {usID:data.id,curuser:loginUser}, function (result) {
                             if(result=='success')
                             {
                                 tablescaptain.ajax.reload();
@@ -386,7 +386,7 @@
                         closeOnConfirm: false
                     },
                     function(){
-                        $.post("/dldata/delUser", {usID:data.id}, function (result) {
+                        $.post("/dldata/delUser", {usID:data.id,curuser:loginUser}, function (result) {
                             if(result=='success')
                             {
                                 tablesmember.ajax.reload();
