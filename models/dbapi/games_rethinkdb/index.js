@@ -281,11 +281,13 @@ exports.all_games_with_assigner = (pageIndex, pageCount, assignerid, callback) =
     return;
   }
 
+  if (assignerid == null || assignerid == undefined) { callback("assignerid is null"); return;}
+
   var q = r.table('games');
   q = q.filter({assignerid: assignerid});
-  q = q.eqJoin('userid', r.table('users'));
-  q = q.without({right: ["id",'pwd','lastip','lasttime','role','status','regtime']});
-  q = q.zip();
+  //q = q.eqJoin('userid', r.table('users'));
+  //q = q.without({right: ["id",'pwd','lastip','lasttime','role','status','regtime']});
+  //q = q.zip();
 
   var qcount = q.count(); // 指定了查询条件后，统计该查询的结果总数。
   qcount.run(rdb.conn, (err, count) => {
@@ -311,7 +313,19 @@ exports.all_games_with_assigner = (pageIndex, pageCount, assignerid, callback) =
                 };
 
                 data.games = result;
-                callback(null, data);
+                var ps = [];
+                data.games.forEach((game)=>{
+                  ps.push(r.table('users').get(game.userid).run(rdb.conn)
+                    .then((u)=>{game.usname = u.usname;
+                        game.nickname = u.nickname;}).catch((err)=>{}));
+
+                  ps.push(r.table('users').get(game.assignerid).run(rdb.conn)
+                    .then((u)=>{game.assignerusname = u.usname;
+                        game.assignernickname = u.nickname;})
+                    .catch((err)=>{}));
+                });
+
+                Promise.all(ps).then(()=>{callback(null, data);}, (err)=>{callback(err);});
               }
             });
           }
@@ -331,9 +345,9 @@ exports.all_games = (pageIndex, pageCount, userid, callback) => {
 
   var q = r.table('games');
   if (userid != null && userid != '') q = q.filter({userid: userid});
-  q = q.eqJoin('userid', r.table('users'));
-  q = q.without({right: ["id",'pwd','lastip','lasttime','role','status','regtime']});
-  q = q.zip();
+  //q = q.eqJoin('userid', r.table('users'));
+  //q = q.without({right: ["id",'pwd','lastip','lasttime','role','status','regtime']});
+  //q = q.zip();
 
   var qcount = q.count(); // 指定了查询条件后，统计该查询的结果总数。
   qcount.run(rdb.conn, (err, count) => {
@@ -359,7 +373,21 @@ exports.all_games = (pageIndex, pageCount, userid, callback) => {
                 };
 
                 data.games = result;
-                callback(null, data);
+                var ps = [];
+                data.games.forEach((game)=>{
+                  ps.push(r.table('users').get(game.userid).run(rdb.conn)
+                    .then((u)=>{game.usname = u.usname;
+                        game.nickname = u.nickname;})
+                    .catch((err)=>{}));
+
+                  ps.push(r.table('users').get(game.assignerid).run(rdb.conn)
+                    .then((u)=>{
+                      game.assignerusname = u.usname;
+                        game.assignernickname = u.nickname;})
+                    .catch((err)=>{}));
+                });
+
+                Promise.all(ps).then(()=>{callback(null, data);}, (err)=>{callback(err);});
               }
             });
           }

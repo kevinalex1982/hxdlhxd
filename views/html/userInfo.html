@@ -23,7 +23,7 @@
                         <table class="table " id="dataTables-manager">
                             <thead>
                             <tr>
-                              <!--  <th>编号</th>-->
+                                <!--  <th>编号</th>-->
                                 <th>昵称</th>
                                 <th>登录账号</th>
 
@@ -98,7 +98,7 @@
     var tablescaptain;
     var tablesmember;
     var columnManager = [
-      /*  {"data": "id"},*/
+        /*  {"data": "id"},*/
 
         {"data": "nickname"},
         {"data": "usname"},
@@ -110,10 +110,12 @@
         {"data": "lasttime"},
         {"data": "lastip"},
         {
-            "data": null,
-            "title": "操作",
-            "defaultContent": "<button type='button' class='btn btn-primary btn-sm datatableEdit'>修改</button> <button type='button' class='btn btn-danger btn-sm datatableDelete'>删除</button>"
+            "data": "id",
+            "createdCell": function (nTd, sData, oData, iRow, iCol) {
+                $(nTd).html( "<button type='button' class='btn btn-primary btn-sm datatableEdit'>修改</button> <button type='button' class='btn btn-danger btn-sm datatableDelete'>删除</button>");
+            }
         }
+
     ];
 
     var columnCaptain;
@@ -121,8 +123,8 @@
 
     var columnMember;
 
-    var userIDforUpd=-1;
-    var curtableForUpd=null;
+    var userIDforUpd = -1;
+    var curtableForUpd = null;
     $(document).ready(function () {
 
         if (currole == '1') {
@@ -157,6 +159,7 @@
             responsive: true,
             processing: true,
             pageLength: 15,
+            ordering: false,
             /* data: jsondatatest,*/
             columns: columnManager,
             sPaginationType: "full_numbers",
@@ -217,7 +220,7 @@
         $('#dataTables-manager tbody').on('click', 'button.datatableEdit', function () {
             var data = tablesmanager.row($(this).parents('tr')).data();
 
-            openUpdModalInitParam(data,tablesmanager);
+            openUpdModalInitParam(data, tablesmanager);
 
         });
         /*删除用户*/
@@ -233,15 +236,13 @@
                     confirmButtonText: "删除!",
                     closeOnConfirm: false
                 },
-                function(){
-                    $.post("/dldata/delUser", {usID:data.id,curuser:loginUser}, function (result) {
-                        if(result=='success')
-                        {
+                function () {
+                    $.post("/dldata/delUser", {user: data, curuser: loginUser}, function (result) {
+                        if (result == 'success') {
                             tablesmanager.ajax.reload();
                             swal("删除成功!", "该行数据被删除.", "success");
                         }
-                        else
-                        {
+                        else {
                             swal("删除失败!", "请联系管理员.", "error");
                         }
                     })
@@ -268,7 +269,7 @@
 
         if (showbtn == 1) {
             columnCaptain = [
-               /* {"data": "id"},*/
+                /* {"data": "id"},*/
 
                 {"data": "nickname"},
                 {"data": "usname"},
@@ -280,9 +281,10 @@
                 {"data": "lasttime"},
                 {"data": "lastip"},
                 {
-                    "data": null,
-                    "title": "操作",
-                    "defaultContent": "<button type='button' class='btn btn-primary btn-sm datatableEdit'>修改</button> <button type='button' class='btn btn-danger btn-sm datatableDelete'>删除</button>"
+                    "data": "id",
+                    "createdCell": function (nTd, sData, oData, iRow, iCol) {
+                        $(nTd).html( "<button type='button' class='btn btn-primary btn-sm datatableEdit'>修改</button> <button type='button' class='btn btn-danger btn-sm datatableDelete'>删除</button>");
+                    }
                 }
             ];
             buildCaptainTable();
@@ -291,7 +293,7 @@
             $('#dataTables-captain tbody').on('click', 'button.datatableEdit', function () {
                 var data = tablescaptain.row($(this).parents('tr')).data();
 
-                openUpdModalInitParam(data,tablescaptain);
+                openUpdModalInitParam(data, tablescaptain);
 
             });
             /*删除用户*/
@@ -307,15 +309,13 @@
                         confirmButtonText: "删除!",
                         closeOnConfirm: false
                     },
-                    function(){
-                        $.post("/dldata/delUser", {usID:data.id,curuser:loginUser}, function (result) {
-                            if(result=='success')
-                            {
+                    function () {
+                        $.post("/dldata/delUser", {usID: data.id, curuser: loginUser}, function (result) {
+                            if (result == 'success') {
                                 tablescaptain.ajax.reload();
                                 swal("删除成功!", "该行数据被删除.", "success");
                             }
-                            else
-                            {
+                            else {
                                 swal("删除失败!", "请联系管理员.", "error");
                             }
                         })
@@ -325,7 +325,7 @@
             });
         } else {
             columnCaptain = [
-             /*   {"data": "id"},*/
+                /*   {"data": "id"},*/
                 {"data": "usname"},
                 {"data": "nickname"},
                 {
@@ -347,7 +347,7 @@
 
         if (showbtn == 1) {
             columnMember = [
-             /*   {"data": "id"},*/
+                /*   {"data": "id"},*/
                 {"data": "nickname"},
                 {"data": "usname"},
 
@@ -359,9 +359,10 @@
                 {"data": "lasttime"},
                 {"data": "lastip"},
                 {
-                    "data": null,
-                    "title": "操作",
-                    "defaultContent": "<button type='button' class='btn btn-primary btn-sm datatableEdit'>修改</button> <button type='button' class='btn btn-danger btn-sm datatableDelete'>删除</button>"
+                    "data": "id",
+                    "createdCell": function (nTd, sData, oData, iRow, iCol) {
+                        $(nTd).html( "<button type='button' class='btn btn-primary btn-sm datatableEdit'>修改</button> <button type='button' class='btn btn-danger btn-sm datatableDelete'>删除</button>");
+                    }
                 }
             ];
             buildMemberTable();
@@ -369,7 +370,7 @@
             // 数据编辑
             $('#dataTables-member tbody').on('click', 'button.datatableEdit', function () {
                 var data = tablesmember.row($(this).parents('tr')).data();
-                openUpdModalInitParam(data,tablesmember);
+                openUpdModalInitParam(data, tablesmember);
 
             });
             /*删除用户*/
@@ -385,15 +386,13 @@
                         confirmButtonText: "删除!",
                         closeOnConfirm: false
                     },
-                    function(){
-                        $.post("/dldata/delUser", {usID:data.id,curuser:loginUser}, function (result) {
-                            if(result=='success')
-                            {
+                    function () {
+                        $.post("/dldata/delUser", {usID: data.id, curuser: loginUser}, function (result) {
+                            if (result == 'success') {
                                 tablesmember.ajax.reload();
                                 swal("删除成功!", "该行数据被删除.", "success");
                             }
-                            else
-                            {
+                            else {
                                 swal("删除失败!", "请联系管理员.", "error");
                             }
                         })
@@ -430,6 +429,7 @@
             responsive: true,
             processing: true,
             pageLength: 15,
+            ordering: false,
             /* data: jsondatatest,*/
             columns: columnCaptain,
             sPaginationType: "full_numbers",
@@ -494,6 +494,7 @@
             responsive: true,
             processing: true,
             pageLength: 15,
+            ordering: false,
             /* data: jsondatatest,*/
             columns: columnMember,
             sPaginationType: "full_numbers",
@@ -613,10 +614,10 @@
     }
 
 
-    function openUpdModalInitParam(seldata,curtable) {
-        curtableForUpd =curtable;
+    function openUpdModalInitParam(seldata, curtable) {
+        curtableForUpd = curtable;
         console.log(seldata);
-        userIDforUpd=seldata.id;
+        userIDforUpd = seldata.id;
         $("#usUserinfoForUpd").val(seldata.usname);
         $("#nickNameForUpd").val(seldata.nickname);
         $("#inputUserForUpdPSW1").val("");

@@ -122,7 +122,7 @@ setTimeout(()=> {
   // 3. content
   // 4. 淘宝订单号
   // 5. 分配者用户id
-  // db.games.addGame('d2007270-30e7-4471-af99-a910303f9047', "游戏昵称6", "游戏信息6", "tbdd6", 'd2007270-30e7-4471-af99-a910303f9047', (err, game) => {
+  // db.games.addGame('1732152d-a7f7-43cd-9ee0-83e9105cb44d', "游戏昵称6", "游戏信息6", "tbdd6", '1732152d-a7f7-43cd-9ee0-83e9105cb44d', (err, game) => {
   //   if (err) { console.log(err); return; }
   //   console.log('======== added game.', game);
   // });
@@ -131,7 +131,7 @@ setTimeout(()=> {
   // 1.pageIndex
   // 2.pageCount
   // 3.userid, 为''或null时不限制用户，返回所有，否则返回已经被分配到用户的游戏列表。
-  // db.games.all_games(1, 20, '70c46afc-88de-40de-b11c-f87bd72398e9', (err, games) => {
+  // db.games.all_games(1, 20, '', (err, games) => {
   //   if (err) { console.log(err); return; };
   //   console.log(games);
   // });
@@ -140,7 +140,7 @@ setTimeout(()=> {
   // 1.pageIndex
   // 2.pageCount
   // 3.agsignerid
-  // db.games.all_games_with_assigner(1, 20, '70c46afc-88de-40de-b11c-f87bd72398e9', (err, games) => {
+  // db.games.all_games_with_assigner(1, 20, '1732152d-a7f7-43cd-9ee0-83e9105cb44d', (err, games) => {
   //   if (err) { console.log(err); return; };
   //   console.log(games);
   // });
