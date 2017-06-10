@@ -43,7 +43,7 @@
                         <table class="table " id="dataTables-captain">
                             <thead>
                             <tr>
-                                <th>编号</th>
+
                                 <th>昵称</th>
                                 <th>登录账号</th>
 
@@ -64,7 +64,7 @@
                         <table class="table " id="dataTables-member">
                             <thead>
                             <tr>
-                                <th>编号</th>
+
                                 <th>昵称</th>
                                 <th>登录账号</th>
 
@@ -191,7 +191,7 @@
             "serverSide": true,//服务端进行分页处理
             "ajax": {
                 data: function (d) {
-                    console.log('custom request');
+                    //console.log('custom request');
                     //默认会有
                     //start，表示要从第几行记录开始显示，例如0表示要取第一行记录开始的页面。
                     //length，表示要取的记录数量，即页面大小。
@@ -205,7 +205,7 @@
                     })
                 },
                 dataSrc: function (json) {
-                    console.log('process response data from server side before display.');
+                    //console.log('process response data from server side before display.');
                     return json.data;
                 },
                 url: "/dldata/getUsers",
@@ -252,7 +252,6 @@
         });
         /*弹出manager添加modal*/
         $("#addManagerModalBtn").on('click', function () {
-            console.log('cleartext');
             checkManagerPSWSame();
             $("#usLoginNameforManager").val('');
             $("#nickNameforManager").val('');
@@ -461,7 +460,7 @@
             "serverSide": true,//服务端进行分页处理
             "ajax": {
                 data: function (d) {
-                    console.log('custom request');
+                    //console.log('custom request');
                     //默认会有
                     //start，表示要从第几行记录开始显示，例如0表示要取第一行记录开始的页面。
                     //length，表示要取的记录数量，即页面大小。
@@ -475,7 +474,7 @@
                     })
                 },
                 dataSrc: function (json) {
-                    console.log('process response data from server side before display.');
+                    //console.log('process response data from server side before display.');
                     return json.data;
                 },
                 url: "/dldata/getUsers",
@@ -526,7 +525,7 @@
             "serverSide": true,//服务端进行分页处理
             "ajax": {
                 data: function (d) {
-                    console.log('custom request');
+                    //console.log('custom request');
                     //默认会有
                     //start，表示要从第几行记录开始显示，例如0表示要取第一行记录开始的页面。
                     //length，表示要取的记录数量，即页面大小。
@@ -540,7 +539,7 @@
                     })
                 },
                 dataSrc: function (json) {
-                    console.log('process response data from server side before display.');
+                    //console.log('process response data from server side before display.');
                     return json.data;
                 },
                 url: "/dldata/getUsers",
@@ -554,7 +553,6 @@
     function checkManagerPSWSame() {
         var isSame = false;
         if ($("#inputManagerPSW2").val() != $("#inputManagerPSW1").val()) {
-            console.log($("#inputManagerPSW2").val());
             $("#pswSameWarn").show();
             if (!($("#checkInputManagePSW").hasClass("has-danger"))) {
                 $("#checkInputManagePSW").addClass("has-danger");
@@ -575,7 +573,6 @@
     function checkCaptainPSWSame() {
         var isSame = false;
         if ($("#inputCaptainPSW2").val() != $("#inputCaptainPSW1").val()) {
-            console.log($("#inputCaptainPSW2").val());
             $("#pswCaptainSameWarn").show();
             if (!($("#checkInputCaptainPSW").hasClass("has-danger"))) {
                 $("#checkInputCaptainPSW").addClass("has-danger");
@@ -596,7 +593,6 @@
     function checkMemberPSWSame() {
         var isSame = false;
         if ($("#inputMemberPSW2").val() != $("#inputMemberPSW1").val()) {
-            console.log($("#inputMemberPSW2").val());
             $("#pswMemberSameWarn").show();
             if (!($("#checkInputMemberPSW").hasClass("has-danger"))) {
                 $("#checkInputMemberPSW").addClass("has-danger");
@@ -616,7 +612,6 @@
 
     function openUpdModalInitParam(seldata, curtable) {
         curtableForUpd = curtable;
-        console.log(seldata);
         userIDforUpd = seldata.id;
         $("#usUserinfoForUpd").val(seldata.usname);
         $("#nickNameForUpd").val(seldata.nickname);

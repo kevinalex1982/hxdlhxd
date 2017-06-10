@@ -40,9 +40,9 @@ r.connect({db: rconf.db, host: rconf.host, port: rconf.port}, (err, conn) => {
                   pwd: 'e10adc3949ba59abbe56e057f20f883e',
                   nickname: '亮哥哥',
                   role: 1,
-                  regtime: "2017-05-23 10:20:00",
-                  lasttime: "2017-05-23 10:20:00",
-                  lastip: "127.0.0.1",
+                  regtime: new Date().toLocaleString(),
+                  lasttime: new Date().toLocaleString(),
+                  lastip: "",
                   status: 0
                 }).run(exports.conn)
                   .then((result)=>{}).catch((err)=>{});

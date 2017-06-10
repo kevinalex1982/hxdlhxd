@@ -248,6 +248,50 @@ router.post('/delGame', function (req, res, next) {
     });
 })
 
+
+router.post('/getTasks', function (req, res, next) {
+
+
+
+    // 获取任务
+    // 1. gameid
+    // 由于任务数记录条数不会很多，基本不用分页
+     db.games.gettasks(req.body.gameid, (err, tasks) => {
+        if (err) {
+            res.send('error');
+        } else {
+            console.log(tasks);
+            res.send(tasks);
+        }
+    })
+
+
+
+
+});
+
+
+router.post('/addTask', function (req, res, next) {
+    var curuser = req.body.curuser;
+    // 添加游戏任务
+// 1. gameid
+// 2. 任务标题
+// 3. 任务内容
+    db.games.addtask(req.body.gameid, req.body.tasktitle, req.body.taskcontent, (err,task) => {
+        if (err) {
+            res.send("error");
+            console.log(err.error);
+        } else {
+            addLog(3, req.body.curuser.userid, "用户：" + req.body.curuser.nickname + "-------添加游戏任务-----游戏昵称为：" + req.body.gameNickName+"&&任务名称为：" + req.body.taskName, req);
+            res.send(task);
+
+            console.log(`======= add 游戏 success`);
+        }
+    });
+})
+
+
+
 router.post('/addLog', function (req, res, next) {
 
 // 添加日志

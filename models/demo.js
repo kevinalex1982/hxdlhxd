@@ -72,7 +72,7 @@ setTimeout(()=> {
   // 1. 页号
   // 2. 每页数量
   // 3. 哪个用户的日志，null或者''表示所有，其它表示按用户id过滤
-  // db.logs.getlogs(1, 10, 'd2007270-30e7-4471-af99-a910303f9047', (err, logs) => {
+  // db.logs.getlogs(1, 10, '', (err, logs) => {
   //  if (err) { console.log(err); return; };
   //
   //   console.log(logs);
@@ -131,7 +131,7 @@ setTimeout(()=> {
   // 1.pageIndex
   // 2.pageCount
   // 3.userid, 为''或null时不限制用户，返回所有，否则返回已经被分配到用户的游戏列表。
-  // db.games.all_games(1, 20, '', (err, games) => {
+  // db.games.all_games(1, 20, 'cb5c2c5c-2669-4a36-b8be-fe25ba59b859', (err, games) => {
   //   if (err) { console.log(err); return; };
   //   console.log(games);
   // });
@@ -140,7 +140,7 @@ setTimeout(()=> {
   // 1.pageIndex
   // 2.pageCount
   // 3.agsignerid
-  // db.games.all_games_with_assigner(1, 20, '1732152d-a7f7-43cd-9ee0-83e9105cb44d', (err, games) => {
+  // db.games.all_games_with_assigner(1, 20, 'cb5c2c5c-2669-4a36-b8be-fe25ba59b859', (err, games) => {
   //   if (err) { console.log(err); return; };
   //   console.log(games);
   // });

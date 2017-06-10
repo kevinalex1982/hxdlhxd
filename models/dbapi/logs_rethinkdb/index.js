@@ -28,9 +28,9 @@ exports.getlogs = (pageIndex, pageCount, userid, callback) => {
 
   var q = rdb.r.table('logs').orderBy({index: rdb.r.desc('addtime')});
   if (userid != null && userid != '') q = q.filter({userid: userid});
-  q = q.eqJoin('userid', rdb.r.table('users'));
-  q = q.without({right: ["id",'pwd','lastip','lasttime','role','status','regtime']});
-  q = q.zip();
+//  q = q.eqJoin('userid', rdb.r.table('users'));
+//  q = q.without({right: ["id",'pwd','lastip','lasttime','role','status','regtime']});
+//  q = q.zip();
 
   var qcount = q.count();
   qcount.run(rdb.conn, (err, count) => {
@@ -54,7 +54,15 @@ exports.getlogs = (pageIndex, pageCount, userid, callback) => {
                   pageCount: pageCount
                 };
                 data.logs = result;
-                callback(null, data);
+                var ps = [];
+                data.logs.forEach((log)=>{
+                  ps.push(rdb.r.table('users').get(log.userid).run(rdb.conn)
+                    .then((u)=>{log.usname = u.usname;
+                        log.nickname = u.nickname;})
+                    .catch((err)=>{log.usname='';log.nickname='';}));
+                });
+
+                Promise.all(ps).then(()=>{callback(null, data);}, (err)=>{callback(err);});
               }
             });
           }
