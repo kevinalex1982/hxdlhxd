@@ -126,33 +126,46 @@ router.post('/delUser', function (req, res, next) {
 })
 
 router.post('/getGames', function (req, res, next) {
-
-    /*    console.log(Number(Number(req.body.start / req.body.length).toFixed(0))+1);
-     console.log(Number(req.body.length));
-     console.log(Number(req.body.usID));*/
-    console.log(req.body.param.usID == '' ? null : req.body.param.usID);
-
-    // 查询所有游戏 userid=0 返回所有
-    db.games.all_games(Number(Number(req.body.start / req.body.length).toFixed(0)) + 1, Number(req.body.length), req.body.param.usID == '' ? null : req.body.param.usID, (err, games) => {
-        if (err) {
-            res.send('error');
-        } else {
-            console.log('games');
-            console.log(games);
-            var jsonSend = {
-                data: games.games, "iTotalDisplayRecords": games.total,
-                "iTotalRecords": games.total,
-                "message": "success"
-            };
-            res.send(jsonSend);
-        }
-    })
+    var curstatus = req.body.param.status == '' ? null : req.body.param.status;
+    if (curstatus != null) {
+        curstatus = Number(curstatus);
+    }
+    // 查询所有游戏
+    // 1.pageIndex
+    // 2.pageCount
+    // 3.userid, 为''或null时不限制用户，返回所有，否则返回已经被分配到用户的游戏列表。
+    // 4.status, 将status加进查询条件，为null时不使用此条件。
+    // 5.assignerid, 将 assignerid加进查询条件，为null不使用此条件。
+    // db.games.all_games(1, 20, '1732152d-a7f7-43cd-9ee0-83e9105cb44d', 1, null, (err, games) => {
+    /*req.body.param.usID ,req.body.param.status, req.body.param.assignerid*/
+    db.games.all_games(Number(Number(req.body.start / req.body.length).toFixed(0)) + 1, Number(req.body.length), req.body.param.usID == '' ? null : req.body.param.usID,
+        curstatus, req.body.param.assignerid == '' ? null : req.body.param.assignerid, (err, games) => {
+            if (err) {
+                res.send('error');
+            } else {
+                console.log('games');
+                console.log(games);
+                for (var i = 0; i < games.games.length; i++) {
+                    if (games.games[i].nickname == null) {
+                        games.games[i].nickname = '未分配';
+                    }
+                }
+                console.log('games');
+                console.log(games);
+                var jsonSend = {
+                    data: games.games, "iTotalDisplayRecords": games.total,
+                    "iTotalRecords": games.total,
+                    "message": "success"
+                };
+                res.send(jsonSend);
+            }
+        })
 
 });
 
 router.post('/getGameWithAssigners', function (req, res, next) {
-    console.log(req);
-console.log(req.body);
+    //console.log(req);
+    //console.log(req.body);
     // 查询是谁分配的所有游戏
 // 1.pageIndex
 // 2.pageCount
@@ -235,7 +248,7 @@ router.post('/delGame', function (req, res, next) {
     var curuser = req.body.curuser;
     // 删除游戏
     // 1. id
-     db.games.delGame(req.body.game.id, (err) => {
+    db.games.delGame(req.body.game.id, (err) => {
         if (err) {
             res.send("error");
             console.log(err.error);
@@ -243,6 +256,44 @@ router.post('/delGame', function (req, res, next) {
         } else {
             res.send('success');
             addLog(2, curuser.userid, "用户：" + curuser.nickname + "-------删除游戏：" + req.body.game.gnickname, req);
+            console.log('======= del user success');
+        }
+    });
+})
+
+router.post('/changeGameStatus', function (req, res, next) {
+
+    var curuser = req.body.curuser;
+    var curstatus = req.body.status == '' ? null : req.body.status;
+    if (curstatus != null) {
+        curstatus = Number(curstatus);
+    }
+// 更新游戏状态
+// 1. id
+// 2. status, 见需求文档
+    db.games.updateGameStatus(req.body.game.id, curstatus, (err) => {
+        var curstatusText;
+        switch (curstatus) {
+            case 0: {
+                curstatusText = '未完成';
+                break;
+            }
+            case 1: {
+                curstatusText = '正在进行';
+                break;
+            }
+            case 2: {
+                curstatusText = '完成';
+                break;
+            }
+        }
+        if (err) {
+            res.send("error");
+            console.log(err.error);
+
+        } else {
+            res.send('success');
+            addLog(2, curuser.userid, "用户：" + curuser.nickname + "-------更新游戏  " + req.body.game.gnickname + "  的完成状态为：" + curstatusText, req);
             console.log('======= del user success');
         }
     });
@@ -256,7 +307,7 @@ router.post('/getTasks', function (req, res, next) {
     // 获取任务
     // 1. gameid
     // 由于任务数记录条数不会很多，基本不用分页
-     db.games.gettasks(req.body.gameid, (err, tasks) => {
+    db.games.gettasks(req.body.gameid, (err, tasks) => {
         if (err) {
             res.send('error');
         } else {
@@ -264,8 +315,6 @@ router.post('/getTasks', function (req, res, next) {
             res.send(tasks);
         }
     })
-
-
 
 
 });
@@ -277,12 +326,12 @@ router.post('/addTask', function (req, res, next) {
 // 1. gameid
 // 2. 任务标题
 // 3. 任务内容
-    db.games.addtask(req.body.gameid, req.body.tasktitle, req.body.taskcontent, (err,task) => {
+    db.games.addtask(req.body.gameid, req.body.tasktitle, req.body.taskcontent, (err, task) => {
         if (err) {
             res.send("error");
             console.log(err.error);
         } else {
-            addLog(3, req.body.curuser.userid, "用户：" + req.body.curuser.nickname + "-------添加游戏任务-----游戏昵称为：" + req.body.gameNickName+"&&任务名称为：" + req.body.taskName, req);
+            addLog(3, req.body.curuser.userid, "用户：" + req.body.curuser.nickname + "-------添加游戏任务-----游戏昵称为：" + req.body.gameNickName + "&&任务名称为：" + req.body.tasktitle, req);
             res.send(task);
 
             console.log(`======= add 游戏 success`);
@@ -290,6 +339,140 @@ router.post('/addTask', function (req, res, next) {
     });
 })
 
+
+router.post('/updTask', function (req, res, next) {
+    var curuser = req.body.curuser;
+
+    // 更新任务
+// 1. 任务id
+// 2. 任务标题
+// 3. 任务内容
+    db.games.updatetask(req.body.taskid, req.body.tasktitle, req.body.taskcontent, (err) => {
+        if (err) {
+            res.send("error");
+            console.log(err.error);
+        }
+        else {
+            res.send('success');
+            addLog(3, curuser.userid, "用户：" + curuser.nickname + "-------删除游戏 " + req.body.gameNickName + " 的任务：" + req.body.tasktitle, req);
+            console.log('======= 更新任务成功.');
+        }
+
+    })
+
+})
+
+router.post('/delTask', function (req, res, next) {
+    var curuser = req.body.curuser;
+
+// 删除任务
+// 1.任务id
+    db.games.deltask(req.body.taskid, (err) => {
+        if (err) {
+            res.send("error");
+            console.log(err.error);
+
+        } else {
+            res.send('success');
+            addLog(3, curuser.userid, "用户：" + curuser.nickname + "-------删除游戏 " + req.body.gamenickname + " 的任务：" + req.body.taskname, req);
+            console.log('======= del task success');
+        }
+    });
+})
+
+
+router.post('/addProgress', function (req, res, next) {
+    var curuser = req.body.curuser;
+    // 添加进度
+// 1. taskid
+// 2. content
+    console.log(req.body.taskid);
+    console.log(req.body.content);
+    db.games.addprogress(req.body.taskid, req.body.content, (err, progress) => {
+        if (err) {
+            res.send("error");
+            console.log(err.error);
+        } else {
+            console.log(progress);
+            addLog(4, req.body.curuser.userid, "用户：" + req.body.curuser.nickname + "-------添加游戏进度" + progress.content + "-----游戏昵称为："
+                + req.body.gameNickName + "&&任务名称为：" + req.body.tasktitle, req);
+            res.send(progress);
+
+            console.log(`======= add 进度 success`);
+        }
+    });
+
+
+})
+
+router.post('/getProgresses', function (req, res, next) {
+
+// 获取进度
+// 1. 任务id
+    db.games.getprogresss(req.body.taskid, (err, progresses) => {
+
+        if (err) {
+            res.send('error');
+        } else {
+            console.log(progresses);
+            res.send(progresses);
+        }
+    })
+
+
+});
+
+
+// 更新进度
+// 1. 进度id
+// 2. 进度内容
+// db.games.updateprogresss('135bb902-5e33-44fd-88af-50d0fc7c78d7', "content 33333333", (err) => {
+//   if (err) { console.log(err); return; };
+//   console.log('========= updated progress');
+// });
+router.post('/delProgress', function (req, res, next) {
+    var curuser = req.body.curuser;
+
+// 删除进度
+// 1. 进度id
+    db.games.delprogress(req.body.progressid, (err) => {
+
+
+        if (err) {
+            res.send("error");
+            console.log(err.error);
+
+        } else {
+            res.send('success');
+            addLog(4, req.body.curuser.userid, "用户：" + req.body.curuser.nickname + "-------删除游戏进度-----游戏昵称为："
+                + req.body.gamenickname + "&&任务名称为：" + req.body.tasktitle, req);
+            console.log('======= del progress success');
+        }
+    });
+})
+
+
+router.post('/changeTaskStatus', function (req, res, next) {
+    var curuser = req.body.curuser;
+
+// 更新任务状态
+// 1. 任务id
+// 2. 新状态，见需求文档
+    db.games.changeTaskStatus(req.body.taskid, req.body.status, (err) => {
+
+        if (err) {
+            res.send("error");
+            console.log(err.error);
+
+        } else {
+            res.send('success');
+            var wcstatus = req.body.status == '0' ? "未完成" : "完成";
+
+            addLog(3, curuser.userid, "用户：" + curuser.nickname + "-------更新游戏 " + req.body.gamenickname + " 的任务： " + req.body.taskname + " 的状态为" + wcstatus, req);
+            console.log('======= changeTaskStatus success');
+        }
+    });
+})
 
 
 router.post('/addLog', function (req, res, next) {

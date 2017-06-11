@@ -25,6 +25,17 @@
 
     <!-- sweetalert-->
     <link rel="stylesheet" href="jscss/sweetalert/sweetalert.css">
+    <style>
+        @media (min-width: 1020px) {
+            .modal-kevinbig {
+                max-width: 700px;
+            }
+
+            .modal-kevinNormal {
+                max-width: 600px;
+            }
+        }
+    </style>
 </head>
 <body class=" rounded menuclose menuclose-right" data-ng-app="myApp">
 <header class="navbar-fixed">
@@ -516,7 +527,7 @@
 <!--任务列表modal-->
 <div class="modal  dark_bg fade" style="margin-top: 50px" id="tasksModal" tabindex="-1" role="dialog"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg"  role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">任务信息</h5>
@@ -542,6 +553,7 @@
                                         <small class="text-success pull-right"><i class="fa fa-flag"></i></small>
                                         <button type="button" class="btn btn-danger mr-1  pull-right btnDeleteTask">删除</button>
                                         <button type="button" class="btn btn-info mr-1  pull-right btnUpdateTask">修改</button>
+                                        <button type="button" class="btn btn-success mr-1  pull-right btnprogress">进度</button>
                                         <div class="can-toggle demo-rebrand-2 small mr-5 pull-right">
                                             <input id="checkTaskStatus" class="taskstatus" type="checkbox" unchecked>
                                             <label for="checkTaskStatus">
@@ -563,8 +575,8 @@
 
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="btnAddSomeGasssmes">确认</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+
             </div>
         </div>
     </div>
@@ -605,471 +617,726 @@
             </div>
         </div>
     </div>
-
-    <!-- jQuery first, then Tether, then Bootstrap JS. -->
-    <script src="js/jquery-2.1.1.min.js" type="text/javascript"></script>
-    <script src="vendor/bootstrap4alpha/js/tether.min.js"></script>
-    <script src="vendor/bootstrap4alpha/js/bootstrap.min.js" type="text/javascript"></script>
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="js/ie10-viewport-bug-workaround.js"></script>
-
-    <!-- Circular chart progress js -->
-    <script src="vendor/cicular_progress/circle-progress.min.js" type="text/javascript"></script>
+</div>
 
 
-    <!-- DataTables JavaScript -->
-    <script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/js/dataTables.bootstrap4.js"></script>
-    <script src="vendor/datatables/js/dataTables.responsive.min.js"></script>
+<!--进度列表modal-->
+<div class="modal  dark_bg fade" style="margin-top: 90px" id="progressesModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-kevinbig" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">进度信息</h5>
+                <div>
+                    <button type="button" class="btn btn-info mr-3" data-toggle='modal' data-target='#addProgressModal'
+                            id="addProgressModalBtn">添加进度
+                    </button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
 
-    <script src="js/angular.js"></script>
-    <script src="js/angular-ui-router.js"></script>
-    <script src="js/App.js"></script>
-    <!-- custome template js -->
-    <script src="js/adminux.js" type="text/javascript"></script>
-    <script src="js/dashboard1.js"></script>
-    <script src="js/md5.js"></script>
-    <script src="js/normalKV.js"></script>
-    <script src="jscss/sweetalert/sweetalert-dev.js"></script>
-    <script src="js/main.js"></script>
-    <script>
-        var curuser;
-        var currole;
-        var curuserid;
-        var curusernickname;
-        var loginUser;
-        $(document).ready(function () {
-            curuser = '{{user.usname}}';
-            currole = '{{user.role}}';
-            curuserid = '{{user.id}}';
-            curusernickname = '{{user.nickname}}';
-            loginUser = {userid: curuserid, username: curuser, nickname: curusernickname};
-            if (currole == '1') {
-                $("#roleCur").text('管理员')
-                /*点击确认进行管理员账号添加*/
-                $("#btnAddManager").on('click', function () {
+                </div>
 
-                    var checkgroup = ['usLoginNameforManager', 'nickNameforManager', 'inputManagerPSW1', 'inputManagerPSW2'];
+            </div>
+            <div class="modal-body">
+                <div class="form-control p-0 maillist">
+                    <div class="list-unstyled media-list" id="progresslist" style="max-height:600px">
+                        <!--    <div class="media" id="taskid234323423">
+                                <div class="media-body">
+                                    <h6 class="mt-0 mb-1 tasktitle" >任务一
+                                        <small class="text-success pull-right"><i class="fa fa-flag"></i></small>
+                                        <button type="button" class="btn btn-danger mr-1  pull-right btnDeleteTask">删除</button>
+                                        <button type="button" class="btn btn-info mr-1  pull-right btnUpdateTask">修改</button>
+                                        <button type="button" class="btn btn-success mr-1  pull-right btnprogress">进度</button>
+                                        <div class="can-toggle demo-rebrand-2 small mr-5 pull-right">
+                                            <input id="checkTaskStatus" class="taskstatus" type="checkbox" unchecked>
+                                            <label for="checkTaskStatus">
+                                                <div class="can-toggle__switch" data-checked="√"
+                                                     data-unchecked="X"></div>
+                                                &lt;!&ndash;        <div class="can-toggle__label-text">.can-toggle.demo-rebrand-2.small</div>&ndash;&gt;
+                                            </label>
+                                        </div>
+                                    </h6>
+                                    <p class="taskaddtime">2:00 pm, 20 January, 2017</p>
+                                    <p class="description taskcontent">
+                                        任务内容任务内容任务内容任务内容任务内容任务内容任务内容任务内容任务内容任务内容任务内容任务内容任务内容任务内容任务内容任务内容任务内容任务内容 </p>
+                                </div>
+                            </div>-->
 
-                    if (checkInputEmpty(checkgroup) == 0) {
-                        swal("非法输入", "不能输入空值!", "error");
-                        return;
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--新增修改进度modal-->
+<div class="modal dark_bg fade" style="margin-top: 150px" id="addProgressModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ProgressModalLabel">新增进度</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+
+
+                    <div class="form-group">
+                        <label class="form-control-label">进度内容:</label>
+                        <input type="text" class="form-control" id="progressInfo">
+                        <small class="form-text text-muted">不能为空</small>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="btnAddProgress">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--改变游戏状态modal-->
+<div class="modal dark_bg fade" style="margin-top: 150px" id="changeGameStatusModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >改变状态</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label class="custom-control custom-radio">
+                        <input id="radio1" name="radioChangeStatus" type="radio" class="custom-control-input" value="0">
+                        <span class="custom-control-indicator"></span> <span class="custom-control-description">未开始</span> </label>
+                    <label class="custom-control custom-radio">
+                        <input id="radio2" name="radioChangeStatus" type="radio" class="custom-control-input" value="1">
+                        <span class="custom-control-indicator"></span> <span class="custom-control-description">正在进行</span> </label>
+                    <label class="custom-control custom-radio">
+                        <input id="radio3" name="radioChangeStatus" type="radio" class="custom-control-input" value="2">
+                        <span class="custom-control-indicator"></span> <span class="custom-control-description">完成</span> </label>
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="changeGameStatus">确认修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- jQuery first, then Tether, then Bootstrap JS. -->
+<script src="js/jquery-2.1.1.min.js" type="text/javascript"></script>
+<script src="vendor/bootstrap4alpha/js/tether.min.js"></script>
+<script src="vendor/bootstrap4alpha/js/bootstrap.min.js" type="text/javascript"></script>
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="js/ie10-viewport-bug-workaround.js"></script>
+
+<!-- Circular chart progress js -->
+<script src="vendor/cicular_progress/circle-progress.min.js" type="text/javascript"></script>
+
+
+<!-- DataTables JavaScript -->
+<script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="vendor/datatables/js/dataTables.bootstrap4.js"></script>
+<script src="vendor/datatables/js/dataTables.responsive.min.js"></script>
+
+<script src="js/angular.js"></script>
+<script src="js/angular-ui-router.js"></script>
+<script src="js/App.js"></script>
+<!-- custome template js -->
+<script src="js/adminux.js" type="text/javascript"></script>
+<script src="js/dashboard1.js"></script>
+<script src="js/md5.js"></script>
+<script src="js/normalKV.js"></script>
+<script src="jscss/sweetalert/sweetalert-dev.js"></script>
+<script src="js/main.js"></script>
+<script>
+    var curuser;
+    var currole;
+    var curuserid;
+    var curusernickname;
+    var loginUser;
+    $(document).ready(function () {
+        curuser = '{{user.usname}}';
+        currole = '{{user.role}}';
+        curuserid = '{{user.id}}';
+        curusernickname = '{{user.nickname}}';
+        loginUser = {userid: curuserid, username: curuser, nickname: curusernickname};
+        if (currole == '1') {
+            $("#roleCur").text('管理员')
+        }
+        else if (currole == '2') {
+            $("#roleCur").text('团长');
+            $("#usernav").attr("hidden", "");
+            $("#lognav").attr("hidden", "");
+        }
+        else if (currole == '3') {
+            $("#roleCur").text('团员');
+            $("#usernav").attr("hidden", "");
+            $("#lognav").attr("hidden", "");
+        }
+
+
+        /*点击确认进行管理员账号添加*/
+        $("#btnAddManager").on('click', function () {
+
+            var checkgroup = ['usLoginNameforManager', 'nickNameforManager', 'inputManagerPSW1', 'inputManagerPSW2'];
+
+            if (checkInputEmpty(checkgroup) == 0) {
+                swal("非法输入", "不能输入空值!", "error");
+                return;
+            }
+            if (checkManagerPSWSame() == false) {
+                swal("密码错误", "两次输入的密码不匹配!", "error");
+                return;
+            }
+
+            var jsonToAdd = {
+                usloginname: $("#usLoginNameforManager").val(),
+                usnickname: $("#nickNameforManager").val(),
+                usloginpsw: hex_md5($("#inputManagerPSW1").val()),
+                curuser: loginUser
+            };
+
+            $.post("/dldata/addAdmin", jsonToAdd, function (result) {
+                if (result == 'error') {
+                    swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
+                }
+                else {
+
+                    tablesmanager.row.add(result).draw();
+                    $('#addManagerModal').modal('hide')
+                    swal("操作成功!", "添加管理员成功!", "success");
+                }
+            });
+
+
+        })
+        /*点击确认进行团长账号添加*/
+        $("#btnAddCaptain").on('click', function () {
+
+            var checkgroup = ['usLoginNameforCaptain', 'nickNameforCaptain', 'inputCaptainPSW1', 'inputCaptainPSW2'];
+
+            if (checkInputEmpty(checkgroup) == 0) {
+                swal("非法输入", "不能输入空值!", "error");
+                return;
+            }
+            if (checkCaptainPSWSame() == false) {
+                swal("密码错误", "两次输入的密码不匹配!", "error");
+                return;
+            }
+
+            var jsonToAdd = {
+                usloginname: $("#usLoginNameforCaptain").val(),
+                usnickname: $("#nickNameforCaptain").val(),
+                usloginpsw: hex_md5($("#inputCaptainPSW1").val()),
+                curuser: loginUser
+            };
+
+            $.post("/dldata/addCaptain", jsonToAdd, function (result) {
+                if (result == 'error') {
+                    swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
+                }
+                else {
+
+                    tablescaptain.row.add(result).draw();
+                    $('#addCaptainModal').modal('hide')
+                    swal("操作成功!", "添加团长成功!", "success");
+                }
+            });
+
+
+        })
+
+        /*点击确认进行团员账号添加*/
+        $("#btnAddMember").on('click', function () {
+
+            var checkgroup = ['usLoginNameforMember', 'nickNameforMember', 'inputMemberPSW1', 'inputMemberPSW2'];
+
+            if (checkInputEmpty(checkgroup) == 0) {
+                swal("非法输入", "不能输入空值!", "error");
+                return;
+            }
+            if (checkMemberPSWSame() == false) {
+                swal("密码错误", "两次输入的密码不匹配!", "error");
+                return;
+            }
+
+            var jsonToAdd = {
+                usloginname: $("#usLoginNameforMember").val(),
+                usnickname: $("#nickNameforMember").val(),
+                usloginpsw: hex_md5($("#inputMemberPSW1").val()),
+                curuser: loginUser
+            };
+
+            $.post("/dldata/addMember", jsonToAdd, function (result) {
+                if (result == 'error') {
+                    swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
+                }
+                else {
+
+                    tablesmember.row.add(result).draw();
+                    $('#addMemberModal').modal('hide')
+                    swal("操作成功!", "添加团员成功!", "success");
+                }
+            });
+
+
+        })
+
+        /*点击确认进行游戏添加或修改*/
+        $("#btnAddGame").on('click', function () {
+
+            var checkgroup = ['nickGameName', 'gameInfo'];
+
+            if (checkInputEmpty(checkgroup) == 0) {
+                swal("非法输入", "不能输入空值!", "error");
+                return;
+            }
+
+
+            if (insertorupdGame == 1) {
+                var jsonToAdd = {
+                    usID: $("#userFormGameSelect").val(),
+                    nickname: $("#userFormGameSelect").val() == null ? '未分配' : $("#userFormGameSelect").find("option:selected").text(),
+                    gameNickName: $("#nickGameName").val(),
+                    gameInfo: $("#gameInfo").val(),
+                    gamettddh: $("#ttddhForGame").val(),
+                    curuser: loginUser
+                };
+                $.post("/dldata/addGame", jsonToAdd, function (result) {
+                    if (result == 'error') {
+                        swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
                     }
-                    if (checkManagerPSWSame() == false) {
-                        swal("密码错误", "两次输入的密码不匹配!", "error");
-                        return;
+                    else {
+
+                        result.assignernickname = curusernickname;
+                        tablesgame.row.add(result).draw();
+                        $('#addGameModal').modal('hide')
+                        swal("操作成功!", "添加游戏成功!", "success");
+                    }
+                });
+            }
+            else if (insertorupdGame == 2) {
+                var jsonToUpd = {
+                    usID: $("#userFormGameSelect").val(),
+                    nickname: $("#userFormGameSelect").val() == null ? '未分配' : $("#userFormGameSelect").find("option:selected").text(),
+                    gameNickName: $("#nickGameName").val(),
+                    gameInfo: $("#gameInfo").val(),
+                    gamettddh: $("#ttddhForGame").val(),
+                    gameid: curGameID,
+                    curuser: loginUser
+                };
+                $.post("/dldata/updGame", jsonToUpd, function (result) {
+                    if (result == 'error') {
+                        swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
+                    }
+                    else {
+
+
+                        tablesgame.ajax.reload();
+                        tablesgameManagered.ajax.reload();
+                        $('#addGameModal').modal('hide');
+                        swal("操作成功!", "修改游戏成功!", "success");
+                    }
+                });
+
+            }
+        })
+
+
+        /*点击确认进行批量游戏添加*/
+        $("#btnAddSomeGames").on('click', function () {
+
+            var userAllJson;
+            $.post("/dldata/getUsers", {start: 0, length: 1000, param: {role: 0}}, function (result) {
+                userAllJson = result.data;
+
+
+                var checkgroup = ['gameTextarea'];
+
+                if (checkInputEmpty(checkgroup) == 0) {
+                    swal("非法输入", "不能输入空值!", "error");
+                    return;
+                }
+                var arrGames = $("#gameTextarea").val().split("\n");
+
+                var indexend = arrGames.length;
+                var indexstart = 1;
+                var useridforaddInSomegames;
+                var usernicknameforaddInSomegames;
+                var gameNickNameforaddInSomegames;
+                var contentforaddInSomegames;
+                var ttddhforaddInSomegames;
+                var gameForAdd;
+                for (var i = 0; i < arrGames.length; i++) {
+                    useridforaddInSomegames = null;
+                    usernicknameforaddInSomegames = null;
+                    gameNickNameforaddInSomegames = null;
+                    contentforaddInSomegames = null;
+                    ttddhforaddInSomegames = null;
+                    gameForAdd = null;
+                    if (arrGames[i].split(',').length > 0) {
+                        $.each(userAllJson, function (index, item) {
+                            if (item.nickname == arrGames[i].split(',')[0]) {
+                                useridforaddInSomegames = item.id;
+                                usernickname = item.nickname;
+                            }
+                        })
                     }
 
-                    var jsonToAdd = {
-                        usloginname: $("#usLoginNameforManager").val(),
-                        usnickname: $("#nickNameforManager").val(),
-                        usloginpsw: hex_md5($("#inputManagerPSW1").val()),
+                    for (var j = 0; j < arrGames[i].split(',').length; j++) {
+                        if (j == 1) {
+                            gameNickNameforaddInSomegames = arrGames[i].split(',')[j];
+                        }
+                        else if (j == 2) {
+                            contentforaddInSomegames = arrGames[i].split(',')[j];
+                        } else if (j == 3) {
+                            ttddhforaddInSomegames = arrGames[i].split(',')[j];
+                        }
+                    }
+
+                    gameForAdd = {
+                        usID: useridforaddInSomegames,
+                        nickname: usernicknameforaddInSomegames == null ? '未分配' : usernicknameforaddInSomegames,
+                        gameNickName: gameNickNameforaddInSomegames,
+                        gameInfo: contentforaddInSomegames,
+                        gamettddh: ttddhforaddInSomegames,
                         curuser: loginUser
                     };
 
-                    $.post("/dldata/addAdmin", jsonToAdd, function (result) {
+                    if (useridforaddInSomegames == null && usernicknameforaddInSomegames == null && gameNickNameforaddInSomegames == null) {
+                        tablesgame.ajax.reload();
+                        $('#addSomeGamesModal').modal('hide')
+                        swal("操作成功!", "批量添加游戏成功!", "success");
+                        return;
+                    }
+                    $.post("/dldata/addGame", gameForAdd, function (result) {
                         if (result == 'error') {
                             swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
                         }
                         else {
 
-                            tablesmanager.row.add(result).draw();
-                            $('#addManagerModal').modal('hide')
-                            swal("操作成功!", "添加管理员成功!", "success");
-                        }
-                    });
-
-
-                })
-                /*点击确认进行团长账号添加*/
-                $("#btnAddCaptain").on('click', function () {
-
-                    var checkgroup = ['usLoginNameforCaptain', 'nickNameforCaptain', 'inputCaptainPSW1', 'inputCaptainPSW2'];
-
-                    if (checkInputEmpty(checkgroup) == 0) {
-                        swal("非法输入", "不能输入空值!", "error");
-                        return;
-                    }
-                    if (checkCaptainPSWSame() == false) {
-                        swal("密码错误", "两次输入的密码不匹配!", "error");
-                        return;
-                    }
-
-                    var jsonToAdd = {
-                        usloginname: $("#usLoginNameforCaptain").val(),
-                        usnickname: $("#nickNameforCaptain").val(),
-                        usloginpsw: hex_md5($("#inputCaptainPSW1").val()),
-                        curuser: loginUser
-                    };
-
-                    $.post("/dldata/addCaptain", jsonToAdd, function (result) {
-                        if (result == 'error') {
-                            swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
-                        }
-                        else {
-
-                            tablescaptain.row.add(result).draw();
-                            $('#addCaptainModal').modal('hide')
-                            swal("操作成功!", "添加团长成功!", "success");
-                        }
-                    });
-
-
-                })
-
-                /*点击确认进行团员账号添加*/
-                $("#btnAddMember").on('click', function () {
-
-                    var checkgroup = ['usLoginNameforMember', 'nickNameforMember', 'inputMemberPSW1', 'inputMemberPSW2'];
-
-                    if (checkInputEmpty(checkgroup) == 0) {
-                        swal("非法输入", "不能输入空值!", "error");
-                        return;
-                    }
-                    if (checkMemberPSWSame() == false) {
-                        swal("密码错误", "两次输入的密码不匹配!", "error");
-                        return;
-                    }
-
-                    var jsonToAdd = {
-                        usloginname: $("#usLoginNameforMember").val(),
-                        usnickname: $("#nickNameforMember").val(),
-                        usloginpsw: hex_md5($("#inputMemberPSW1").val()),
-                        curuser: loginUser
-                    };
-
-                    $.post("/dldata/addMember", jsonToAdd, function (result) {
-                        if (result == 'error') {
-                            swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
-                        }
-                        else {
-
-                            tablesmember.row.add(result).draw();
-                            $('#addMemberModal').modal('hide')
-                            swal("操作成功!", "添加团员成功!", "success");
-                        }
-                    });
-
-
-                })
-
-                /*点击确认进行游戏添加或修改*/
-                $("#btnAddGame").on('click', function () {
-
-                    var checkgroup = ['nickGameName', 'gameInfo'];
-
-                    if (checkInputEmpty(checkgroup) == 0) {
-                        swal("非法输入", "不能输入空值!", "error");
-                        return;
-                    }
-
-
-                    if (insertorupdGame == 1) {
-                        var jsonToAdd = {
-                            usID: $("#userFormGameSelect").val(),
-                            nickname: $("#userFormGameSelect").val() == null ? '未分配' : $("#userFormGameSelect").find("option:selected").text(),
-                            gameNickName: $("#nickGameName").val(),
-                            gameInfo: $("#gameInfo").val(),
-                            gamettddh: $("#ttddhForGame").val(),
-                            curuser: loginUser
-                        };
-                        $.post("/dldata/addGame", jsonToAdd, function (result) {
-                            if (result == 'error') {
-                                swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
-                            }
-                            else {
-
-                                result.assignernickname = curusernickname;
-                                tablesgame.row.add(result).draw();
-                                $('#addGameModal').modal('hide')
-                                swal("操作成功!", "添加游戏成功!", "success");
-                            }
-                        });
-                    }
-                    else if (insertorupdGame == 2) {
-                        var jsonToUpd = {
-                            usID: $("#userFormGameSelect").val(),
-                            nickname: $("#userFormGameSelect").val() == null ? '未分配' : $("#userFormGameSelect").find("option:selected").text(),
-                            gameNickName: $("#nickGameName").val(),
-                            gameInfo: $("#gameInfo").val(),
-                            gamettddh: $("#ttddhForGame").val(),
-                            gameid: curGameID,
-                            curuser: loginUser
-                        };
-                        $.post("/dldata/updGame", jsonToUpd, function (result) {
-                            if (result == 'error') {
-                                swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
-                            }
-                            else {
-
-
-                                curtableForUpd.ajax.reload();
-                                $('#addGameModal').modal('hide');
-                                swal("操作成功!", "添加修改成功!", "success");
-                            }
-                        });
-
-                    }
-                })
-
-
-                /*点击确认进行批量游戏添加*/
-                $("#btnAddSomeGames").on('click', function () {
-
-                    var userAllJson;
-                    $.post("/dldata/getUsers", {start: 0, length: 1000, param: {role: 0}}, function (result) {
-                        userAllJson = result.data;
-
-
-                        var checkgroup = ['gameTextarea'];
-
-                        if (checkInputEmpty(checkgroup) == 0) {
-                            swal("非法输入", "不能输入空值!", "error");
-                            return;
-                        }
-                        var arrGames = $("#gameTextarea").val().split("\n");
-
-                        var indexend = arrGames.length;
-                        var indexstart = 1;
-                        var useridforaddInSomegames;
-                        var usernicknameforaddInSomegames;
-                        var gameNickNameforaddInSomegames;
-                        var contentforaddInSomegames;
-                        var ttddhforaddInSomegames;
-                        var gameForAdd;
-                        for (var i = 0; i < arrGames.length; i++) {
-                            useridforaddInSomegames = null;
-                            usernicknameforaddInSomegames = null;
-                            gameNickNameforaddInSomegames = null;
-                            contentforaddInSomegames = null;
-                            ttddhforaddInSomegames = null;
-                            gameForAdd = null;
-                            if (arrGames[i].split(',').length > 0) {
-                                $.each(userAllJson, function (index, item) {
-                                    if (item.nickname == arrGames[i].split(',')[0]) {
-                                        useridforaddInSomegames = item.id;
-                                        usernickname = item.nickname;
-                                    }
-                                })
-                            }
-
-                            for (var j = 0; j < arrGames[i].split(',').length; j++) {
-                                if (j == 1) {
-                                    gameNickNameforaddInSomegames = arrGames[i].split(',')[j];
-                                }
-                                else if (j == 2) {
-                                    contentforaddInSomegames = arrGames[i].split(',')[j];
-                                } else if (j == 3) {
-                                    ttddhforaddInSomegames = arrGames[i].split(',')[j];
-                                }
-                            }
-
-                            gameForAdd = {
-                                usID: useridforaddInSomegames,
-                                nickname: usernicknameforaddInSomegames == null ? '未分配' : usernicknameforaddInSomegames,
-                                gameNickName: gameNickNameforaddInSomegames,
-                                gameInfo: contentforaddInSomegames,
-                                gamettddh: ttddhforaddInSomegames,
-                                curuser: loginUser
-                            };
-
-                            if (useridforaddInSomegames == null && usernicknameforaddInSomegames == null && gameNickNameforaddInSomegames == null) {
+                            if (indexstart == indexend) {
                                 tablesgame.ajax.reload();
                                 $('#addSomeGamesModal').modal('hide')
                                 swal("操作成功!", "批量添加游戏成功!", "success");
-                                return;
                             }
-                            $.post("/dldata/addGame", gameForAdd, function (result) {
-                                if (result == 'error') {
-                                    swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
-                                }
-                                else {
 
-                                    if (indexstart == indexend) {
-                                        tablesgame.ajax.reload();
-                                        $('#addSomeGamesModal').modal('hide')
-                                        swal("操作成功!", "批量添加游戏成功!", "success");
-                                    }
-
-                                }
-                                indexstart++;
-                            });
                         }
-
-                    })
-
-
-                })
-
-
-                /*点击确认进行任务添加或修改*/
-                $("#btnAddTask").on('click', function () {
-
-                    var checkgroup = ['taskName', 'taskInfo'];
-
-                    if (checkInputEmpty(checkgroup) == 0) {
-                        swal("非法输入", "不能输入空值!", "error");
-                        return;
-                    }
-
-
-                    if (insertorupdTask == 1) {
-                        var jsonToAdd = {
-                            gameid:curGameID,
-                            gameNickName:curGameNickName,
-                            tasktitle:$("#taskName").val(),
-                            taskcontent:$("#taskInfo").val(),
-                            curuser: loginUser
-                        };
-                        $.post("/dldata/addTask", jsonToAdd, function (result) {
-                            if (result == 'error') {
-                                swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
-                            }
-                            else {
-
-                              /*  result.assignernickname = curusernickname;
-                                tablesgame.row.add(result).draw();*/
-                                $('#addTaskModal').modal('hide')
-                                swal("操作成功!", "添加任务成功!", "success");
-                            }
-                        });
-                    }
-                    else if (insertorupdGame == 2) {
-                        var jsonToUpd = {
-                            usID: $("#userFormGameSelect").val(),
-                            nickname: $("#userFormGameSelect").val() == null ? '未分配' : $("#userFormGameSelect").find("option:selected").text(),
-                            gameNickName: $("#nickGameName").val(),
-                            gameInfo: $("#gameInfo").val(),
-                            gamettddh: $("#ttddhForGame").val(),
-                            gameid: curGameID,
-                            curuser: loginUser
-                        };
-                        $.post("/dldata/updGame", jsonToUpd, function (result) {
-                            if (result == 'error') {
-                                swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
-                            }
-                            else {
-
-
-                                curtableForUpd.ajax.reload();
-                                $('#addGameModal').modal('hide');
-                                swal("操作成功!", "添加修改成功!", "success");
-                            }
-                        });
-
-                    }
-                })
-
-
-            }
-            else if (currole == '2') {
-                $("#roleCur").text('团长');
-            }
-            else if (currole == '3') {
-                $("#roleCur").text('团员');
-                $("#usernav").attr("hidden", "");
-                $("#gamenav").attr("hidden", "");
-                $("#lognav").attr("hidden", "");
-            }
-
-            /*弹出修改资料窗口*/
-            $("#btnchangeProfile").on('click', function () {
-                $("#usChangeProfile").val(curuser);
-                $("#nickNameChangeProfile").val(curusernickname);
-                $("#inputChangeProfilePSW1").val("");
-                $("#inputChangeProfilePSW2").val("");
+                        indexstart++;
+                    });
+                }
 
             })
 
-            /*修改资料窗口的确认按钮*/
-            $("#btnChangeProfileConfirm").on('click', function () {
 
-                var checkgroup = ['nickNameChangeProfile'];
-                if (checkInputEmpty(checkgroup) == 0) {
-                    swal("非法输入", "不能输入空值!", "error");
-                    return;
-                }
-
-                if (checkPSWSame('inputChangeProfilePSW1', 'inputChangeProfilePSW2', 'pswChangeProfileSameWarn') == false) {
-                    swal("密码错误", "两次输入的密码不匹配!", "error");
-                    return;
-                }
-
-
-                var jsonToUpd = {
-                    usID: curuserid,
-                    usnickname: $("#nickNameChangeProfile").val(),
-                    usloginpsw: $("#inputChangeProfilePSW1").val() == "" ? "" : hex_md5($("#inputChangeProfilePSW1").val()),
-                    curuser: loginUser
-                };
-
-                curusernickname = $("#nickNameChangeProfile").val();
-                $.post("/dldata/updUser", jsonToUpd, function (result) {
-                    if (result == 'error') {
-                        swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
-                    }
-                    else {
-
-                        $("#curnick").text(curusernickname);
-                        $('#changeProfile').modal('hide')
-                        swal("操作成功!", "修改资料成功!", "success");
-                    }
-                });
-
-
-                $("#usChangeProfile").val(curuser);
-                $("#nickNameChangeProfile").val(curusernickname);
-                $("#inputChangeProfilePSW1").val("");
-                $("#inputChangeProfilePSW2").val("");
-
-
-            })
-
-            /*修改用户窗口的确认按钮*/
-            $("#btnUserForUpdConfirm").on('click', function () {
-
-                var checkgroup = ['nickNameForUpd'];
-                if (checkInputEmpty(checkgroup) == 0) {
-                    swal("非法输入", "不能输入空值!", "error");
-                    return;
-                }
-
-                if (checkPSWSame('inputUserForUpdPSW1', 'inputUserForUpdPSW2', 'pswUserForUpdSameWarn') == false) {
-                    swal("密码错误", "两次输入的密码不匹配!", "error");
-                    return;
-                }
-
-
-                var jsonToUpd = {
-                    usID: userIDforUpd,
-                    usnickname: $("#nickNameForUpd").val(),
-                    usloginpsw: $("#inputUserForUpdPSW1").val() == "" ? "" : hex_md5($("#inputUserForUpdPSW1").val()),
-                    curuser: loginUser
-                };
-
-
-                $.post("/dldata/updUser", jsonToUpd, function (result) {
-                    if (result == 'error') {
-                        swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
-                    }
-                    else {
-                        curtableForUpd.ajax.reload();
-                        $('#updataUser').modal('hide')
-                        swal("操作成功!", "修改用户成功!", "success");
-                    }
-                });
-
-
-            })
-
-            /*弹出添加任务时工作*/
-            $("#addTaskModalBtn").on('click', function () {
-                $("#taskName").val('');
-                $("#taskInfo").val('');
-                insertorupdTask = 1;
-            })
         })
-    </script>
+
+
+        /*点击确认进行任务添加或修改*/
+        $("#btnAddTask").on('click', function () {
+
+            var checkgroup = ['taskName', 'taskInfo'];
+
+            if (checkInputEmpty(checkgroup) == 0) {
+                swal("非法输入", "不能输入空值!", "error");
+                return;
+            }
+
+
+            if (insertorupdTask == 1) {
+                var jsonToAdd = {
+                    gameid: curGameID,
+                    gameNickName: curGameNickName,
+                    tasktitle: $("#taskName").val(),
+                    taskcontent: $("#taskInfo").val(),
+                    curuser: loginUser
+                };
+                $.post("/dldata/addTask", jsonToAdd, function (result) {
+                    if (result == 'error') {
+                        swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
+                    }
+                    else {
+
+                        refreshTasks(false);
+
+                        //console.log(result);
+                        /*  result.assignernickname = curusernickname;
+                         tablesgame.row.add(result).draw();*/
+                        $('#addTaskModal').modal('hide')
+                        swal("操作成功!", "添加任务成功!", "success");
+                    }
+                });
+            }
+            else if (insertorupdTask == 2) {
+
+                var jsonToUpd = {
+                    taskid: curTaskID,
+                    tasktitle: $("#taskName").val(),
+                    taskcontent: $("#taskInfo").val(),
+                    gameNickName: curGameNickName,
+                    curuser: loginUser
+                };
+                $.post("/dldata/updTask", jsonToUpd, function (result) {
+                    if (result == 'error') {
+                        swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
+                    }
+                    else {
+
+                        refreshTasks(false);
+                        $('#addTaskModal').modal('hide');
+                        swal("操作成功!", "修改任务成功!", "success");
+                    }
+                });
+
+            }
+        })
+
+        /*点击确认进行进度添加或修改*/
+        $("#btnAddProgress").on('click', function () {
+
+            var checkgroup = [ 'progressInfo'];
+
+            if (checkInputEmpty(checkgroup) == 0) {
+                swal("非法输入", "不能输入空值!", "error");
+                return;
+            }
+
+
+            if (insertorupdProgress == 1) {
+                var jsonToAdd = {
+                    taskid:curTaskID,
+                    gameid: curGameID,
+                    gameNickName: curGameNickName,
+                    tasktitle: curTaskName,
+                    content: $("#progressInfo").val(),
+                    curuser: loginUser
+                };
+                //console.log(jsonToAdd);
+                $.post("/dldata/addProgress", jsonToAdd, function (result) {
+                    if (result == 'error') {
+                        swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
+                    }
+                    else {
+
+                        refreshProgresses(false);
+
+                        //console.log(result);
+                        /*  result.assignernickname = curusernickname;
+                         tablesgame.row.add(result).draw();*/
+                        $('#addProgressModal').modal('hide')
+                        swal("操作成功!", "添加进度成功!", "success");
+                    }
+                });
+            }
+            else if (insertorupdProgress == 2) {
+
+                var jsonToUpd = {
+                    taskid: curTaskID,
+                    tasktitle: $("#taskName").val(),
+                    taskcontent: $("#taskInfo").val(),
+                    gameNickName: curGameNickName,
+                    curuser: loginUser
+                };
+                $.post("/dldata/updTask", jsonToUpd, function (result) {
+                    if (result == 'error') {
+                        swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
+                    }
+                    else {
+
+                        refreshTasks(false);
+                        $('#addTaskModal').modal('hide');
+                        swal("操作成功!", "修改任务成功!", "success");
+                    }
+                });
+
+            }
+        })
+
+        /*点击确认修改游戏完成状态*/
+        $("#changeGameStatus").on('click', function () {
+                var jsonToAdd = {
+                    game: waitchangegame,
+                    curuser: loginUser,
+                    status:$('input:radio[name="radioChangeStatus"]:checked').val()
+                };
+                $.post("/dldata/changeGameStatus", jsonToAdd, function (result) {
+                    if (result == 'error') {
+                        swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
+                    }
+                    else {
+
+                        tablesgamenotstart.ajax.reload( function ( json ) {
+                            // 改变状态窗口
+                            $('.datatableChangeStatusNotStart').on('click', function () {
+                                console.log('notstart');
+
+                                var data = tablesgamenotstart.row($(this).parents('tr')).data();
+                                waitchangegame=data;
+                                $('input:radio[name="radioChangeStatus"]').eq(Number(data.status)).prop('checked', 'true');
+                                $("#changeGameStatusModal").modal("show");//弹出框show
+
+                            });
+                        });
+                        tablesgameinprogress.ajax.reload( function ( json ) {
+                            // 改变状态窗口
+                            $('.datatableChangeStatusInProgress').on('click', function () {
+                                console.log('progress');
+                                var data = tablesgameinprogress.row($(this).parents('tr')).data();
+                                waitchangegame=data;
+                                $('input:radio[name="radioChangeStatus"]').eq(Number(data.status)).prop('checked', 'true');
+                                $("#changeGameStatusModal").modal("show");//弹出框show
+
+                            });
+                        });
+                        tablesgamecomplete.ajax.reload( function ( json ) {
+                            // 改变状态窗口
+                            $('.datatableChangeStatusComplete').on('click', function () {
+                                console.log('complete');
+                                var data = tablesgamecomplete.row($(this).parents('tr')).data();
+                                waitchangegame=data;
+                                $('input:radio[name="radioChangeStatus"]').eq(Number(data.status)).prop('checked', 'true');
+                                $("#changeGameStatusModal").modal("show");//弹出框show
+
+                            });
+                        });
+                        $('#changeGameStatusModal').modal('hide')
+                        swal("操作成功!", "更新游戏状态成功!", "success");
+                    }
+                });
+
+        })
+
+
+
+        /*弹出修改资料窗口*/
+        $("#btnchangeProfile").on('click', function () {
+            $("#usChangeProfile").val(curuser);
+            $("#nickNameChangeProfile").val(curusernickname);
+            $("#inputChangeProfilePSW1").val("");
+            $("#inputChangeProfilePSW2").val("");
+
+        })
+
+        /*修改资料窗口的确认按钮*/
+        $("#btnChangeProfileConfirm").on('click', function () {
+
+            var checkgroup = ['nickNameChangeProfile'];
+            if (checkInputEmpty(checkgroup) == 0) {
+                swal("非法输入", "不能输入空值!", "error");
+                return;
+            }
+
+            if (checkPSWSame('inputChangeProfilePSW1', 'inputChangeProfilePSW2', 'pswChangeProfileSameWarn') == false) {
+                swal("密码错误", "两次输入的密码不匹配!", "error");
+                return;
+            }
+
+
+            var jsonToUpd = {
+                usID: curuserid,
+                usnickname: $("#nickNameChangeProfile").val(),
+                usloginpsw: $("#inputChangeProfilePSW1").val() == "" ? "" : hex_md5($("#inputChangeProfilePSW1").val()),
+                curuser: loginUser
+            };
+
+            curusernickname = $("#nickNameChangeProfile").val();
+            $.post("/dldata/updUser", jsonToUpd, function (result) {
+                if (result == 'error') {
+                    swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
+                }
+                else {
+
+                    $("#curnick").text(curusernickname);
+                    $('#changeProfile').modal('hide')
+                    swal("操作成功!", "修改资料成功!", "success");
+                }
+            });
+
+
+            $("#usChangeProfile").val(curuser);
+            $("#nickNameChangeProfile").val(curusernickname);
+            $("#inputChangeProfilePSW1").val("");
+            $("#inputChangeProfilePSW2").val("");
+
+
+        })
+
+        /*修改用户窗口的确认按钮*/
+        $("#btnUserForUpdConfirm").on('click', function () {
+
+            var checkgroup = ['nickNameForUpd'];
+            if (checkInputEmpty(checkgroup) == 0) {
+                swal("非法输入", "不能输入空值!", "error");
+                return;
+            }
+
+            if (checkPSWSame('inputUserForUpdPSW1', 'inputUserForUpdPSW2', 'pswUserForUpdSameWarn') == false) {
+                swal("密码错误", "两次输入的密码不匹配!", "error");
+                return;
+            }
+
+
+            var jsonToUpd = {
+                usID: userIDforUpd,
+                usnickname: $("#nickNameForUpd").val(),
+                usloginpsw: $("#inputUserForUpdPSW1").val() == "" ? "" : hex_md5($("#inputUserForUpdPSW1").val()),
+                curuser: loginUser
+            };
+
+
+            $.post("/dldata/updUser", jsonToUpd, function (result) {
+                if (result == 'error') {
+                    swal("操作失败", "数据库操作失败，请检查网络，或联系维护人员!", "error");
+                }
+                else {
+                    curtableForUpd.ajax.reload();
+                    $('#updataUser').modal('hide')
+                    swal("操作成功!", "修改用户成功!", "success");
+                }
+            });
+
+
+        })
+
+        /*弹出添加任务时工作*/
+        $("#addTaskModalBtn").on('click', function () {
+            $("#taskName").val('');
+            $("#taskInfo").val('');
+            $("#TaskModalLabel").text('新增任务');
+            insertorupdTask = 1;
+        })
+
+        /*弹出添加进度时工作*/
+        $("#addProgressModalBtn").on('click', function () {
+            $("#progressInfo").val('');
+            $("#ProgressModalLabel").text('新增进度');
+            insertorupdProgress = 1;
+        })
+
+    })
+</script>
 </body>
 </html>

@@ -2,10 +2,31 @@
 // dbapi/config/index.js文件中指定rethinkdb的地址和端口.
 
 var db = require('./dbapi'); // 后台数据库相关api
+// var app = require('express')();
+// var http = require('http').Server(app);
+
+// 要启用socket.io，后端按照A1，A2，A3三个步骤。前端按index.html文件的script实现。
+
+// A1. 添加引用
+// var sio = require('./sio');
+
+// app.get('/', (req, res)=>{
+//   res.sendFile(__dirname + '/index.html');
+// });
+
+// http.listen(3000, ()=>{
+//   console.log('listening on *:3000');
+// });
 
 db.useRethinkDb(); // 默认内存数据库，使用这个切换成实际部署数据库。
 
 setTimeout(()=> {
+
+  // A2. 将socket.io绑定到http上。
+  //sio.configSio(http);
+  // A3. 开始监听消息，目前只示范实现了一个游戏添加的消息。前端代码具体参考index.html中的script。
+  //sio.watch();
+
   // 添加管理员
   // 1： 用户登录名，2：昵称，3：密码（经过md5运算），4：回调，err如果成功为null，否则表示失败。属性error表示错误描述。
   // db.users.addAdmin('admin2', '昵称2', 'e10adc3949ba59abbe56e057f20f883e', (err, user)=> {
@@ -76,6 +97,7 @@ setTimeout(()=> {
   //  if (err) { console.log(err); return; };
   //
   //   console.log(logs);
+  //   console.log(logs.logs[0].addtime.toLocaleString());
   // });
 
   // 修改用户
@@ -131,7 +153,9 @@ setTimeout(()=> {
   // 1.pageIndex
   // 2.pageCount
   // 3.userid, 为''或null时不限制用户，返回所有，否则返回已经被分配到用户的游戏列表。
-  // db.games.all_games(1, 20, 'cb5c2c5c-2669-4a36-b8be-fe25ba59b859', (err, games) => {
+  // 4.status, 将status加进查询条件，为null时不使用此条件。
+  // 5.assignerid, 将 assignerid加进查询条件，为null不使用此条件。
+  // db.games.all_games(1, 20, '1732152d-a7f7-43cd-9ee0-83e9105cb44d', 1, null, (err, games) => {
   //   if (err) { console.log(err); return; };
   //   console.log(games);
   // });
@@ -144,6 +168,16 @@ setTimeout(()=> {
   //   if (err) { console.log(err); return; };
   //   console.log(games);
   // });
+
+  // 按任务状态来查询游戏
+  // 1.pageIndex
+  // 2.pageCount
+  // 3.status 按任务来查询游戏
+  // db.games.all_games_with_status(1, 20, 0, (err, games) => {
+  //   if (err) { console.log(err); return; };
+  //   console.log(games);
+  // });
+
 
   // 修改游戏
   // 1. id
@@ -176,10 +210,10 @@ setTimeout(()=> {
   // 1. gameid
   // 2. 任务标题
   // 3. 任务内容
-  // db.games.addtask('dc5e9213-08b6-4841-a4b7-d8b4de0a1b84', "task2", "task2", (err) => {
-  //   if (err) { console.log(err); return; };
-  //   console.log("======= task added");
-  // });
+  db.games.addtask('b3d09403-77f5-4ae1-b4e3-b52472b6f540', "task2", "task2", (err, task) => {
+    if (err) { console.log(err); return; };
+    console.log("======= task added", task);
+  });
 
   // 获取任务
   // 1. gameid
@@ -216,10 +250,10 @@ setTimeout(()=> {
   // 添加进度
   // 1. taskid
   // 2. content
-  // db.games.addprogress('f3411e50-cb68-4937-a8e9-db8bd07774ec', "progress content 1", (err) => {
-  //   if (err) { console.log(err); return; };
-  //   console.log("======= progress added");
-  // });
+  db.games.addprogress('c36f1e36-75ed-4940-bbf9-1c3adf0dd441', "progress content 1", (err, progress) => {
+    if (err) { console.log(err); return; };
+    console.log("======= progress added", progress);
+  });
 
   // 获取进度
   // 1. 任务id

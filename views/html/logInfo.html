@@ -28,7 +28,7 @@
 </div>
 <script>
     var tableslog;
-    var columnLog ;
+    var columnLog;
 
     $(document).ready(function () {
 
@@ -50,16 +50,47 @@
     /* manager初始化*/
     function logInit(role) {
 
-            columnLog = [
+        columnLog = [
+            {
+                "data": "type",
+                "createdCell": function (nTd, sData, oData, iRow, iCol) {
+                    switch (sData) {
+                        case 1: {
+                            $(nTd).html("用户");
+                            break;
+                        }
+                        case 2: {
+                            $(nTd).html("游戏");
+                            break;
+                        }
+                        case 3: {
+                            $(nTd).html("任务");
+                            break;
+                        }
+                        case 4: {
+                            $(nTd).html("进度");
+                            break;
+                        }
+                    }
 
-                {"data": "type"},
+                }
+            }
+            ,
 
-                {"data": "nickname"},
-                {"data": "content"},
+            {"data": "nickname"},
+            {"data": "content"},
 
-                {"data": "addtime"}
+            {"data": "addtime",
+                "createdCell": function (nTd, sData, oData, iRow, iCol) {
 
-            ];
+                    if (sData == '') {
+                        $(nTd).html('');
+                    } else {
+                        $(nTd).html(new Date(sData).toLocaleString());
+                    }
+                }}
+
+        ];
 
         /* 生成datatable日志*/
         tableslog = $('#dataTables-log').DataTable({
@@ -68,7 +99,7 @@
             responsive: true,
             processing: true,
             pageLength: 15,
-            ordering:false,
+            ordering: false,
             /* data: jsondatatest,*/
             columns: columnLog,
             sPaginationType: "full_numbers",

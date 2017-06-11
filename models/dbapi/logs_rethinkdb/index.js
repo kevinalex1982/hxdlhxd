@@ -13,7 +13,7 @@ exports.addlog = (type, userid, content, ip, callback) => {
     userid: userid,
     content: content,
     ip: ip,
-    addtime: new Date().toLocaleString()
+    addtime: new Date()
   }).run(rdb.conn, (err, result)=>{
     if (err) callback(err.msg);
     else callback(null);

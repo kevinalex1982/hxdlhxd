@@ -14,3 +14,11 @@ function checkInputEmpty(inputGroup) {
     }
     return 1;
 }
+
+
+/*
+// 清除两边的空格
+String.prototype.trim = function() {
+    return this.replace(/(^\s*)|(\s*$)/g, '');
+};
+*/

@@ -106,13 +106,35 @@
             "data": null,
             "defaultContent": "<label  class='label-info'>管理员</label>"
         },
-        {"data": "regtime"},
-        {"data": "lasttime"},
+        {
+            "data": "regtime",
+            "createdCell": function (nTd, sData, oData, iRow, iCol) {
+
+                if (sData == '') {
+                    $(nTd).html('');
+                } else {
+                    $(nTd).html(new Date(sData).toLocaleString());
+                }
+            }
+        },
+        {
+            "data": "lasttime",
+            "createdCell": function (nTd, sData, oData, iRow, iCol) {
+
+                if (sData == '') {
+                    $(nTd).html('');
+                } else {
+
+                        $(nTd).html(new Date(sData).toLocaleString());
+
+                }
+            }
+        },
         {"data": "lastip"},
         {
             "data": "id",
             "createdCell": function (nTd, sData, oData, iRow, iCol) {
-                $(nTd).html( "<button type='button' class='btn btn-primary btn-sm datatableEdit'>修改</button> <button type='button' class='btn btn-danger btn-sm datatableDelete'>删除</button>");
+                $(nTd).html("<button type='button' class='btn btn-primary btn-sm datatableEdit'>修改</button> <button type='button' class='btn btn-danger btn-sm datatableDelete'>删除</button>");
             }
         }
 
@@ -276,13 +298,33 @@
                     "data": null,
                     "defaultContent": "<label  class='label-info'>团长</label>"
                 },
-                {"data": "regtime"},
-                {"data": "lasttime"},
+                {
+                    "data": "regtime",
+                    "createdCell": function (nTd, sData, oData, iRow, iCol) {
+
+                        if (sData == '') {
+                            $(nTd).html('');
+                        } else {
+                            $(nTd).html(new Date(sData).toLocaleString());
+                        }
+                    }
+                },
+                {
+                    "data": "lasttime",
+                    "createdCell": function (nTd, sData, oData, iRow, iCol) {
+
+                        if (sData == '') {
+                            $(nTd).html('');
+                        } else {
+                            $(nTd).html(new Date(sData).toLocaleString());
+                        }
+                    }
+                },
                 {"data": "lastip"},
                 {
                     "data": "id",
                     "createdCell": function (nTd, sData, oData, iRow, iCol) {
-                        $(nTd).html( "<button type='button' class='btn btn-primary btn-sm datatableEdit'>修改</button> <button type='button' class='btn btn-danger btn-sm datatableDelete'>删除</button>");
+                        $(nTd).html("<button type='button' class='btn btn-primary btn-sm datatableEdit'>修改</button> <button type='button' class='btn btn-danger btn-sm datatableDelete'>删除</button>");
                     }
                 }
             ];
@@ -309,7 +351,7 @@
                         closeOnConfirm: false
                     },
                     function () {
-                        $.post("/dldata/delUser", {usID: data.id, curuser: loginUser}, function (result) {
+                        $.post("/dldata/delUser", {user: data, curuser: loginUser}, function (result) {
                             if (result == 'success') {
                                 tablescaptain.ajax.reload();
                                 swal("删除成功!", "该行数据被删除.", "success");
@@ -354,13 +396,33 @@
                     "data": null,
                     "defaultContent": "<label  class='label-info'>团员</label>"
                 },
-                {"data": "regtime"},
-                {"data": "lasttime"},
+                {
+                    "data": "regtime",
+                    "createdCell": function (nTd, sData, oData, iRow, iCol) {
+
+                        if (sData == '') {
+                            $(nTd).html('');
+                        } else {
+                            $(nTd).html(new Date(sData).toLocaleString());
+                        }
+                    }
+                },
+                {
+                    "data": "lasttime",
+                    "createdCell": function (nTd, sData, oData, iRow, iCol) {
+
+                        if (sData == '') {
+                            $(nTd).html('');
+                        } else {
+                            $(nTd).html(new Date(sData).toLocaleString());
+                        }
+                    }
+                },
                 {"data": "lastip"},
                 {
                     "data": "id",
                     "createdCell": function (nTd, sData, oData, iRow, iCol) {
-                        $(nTd).html( "<button type='button' class='btn btn-primary btn-sm datatableEdit'>修改</button> <button type='button' class='btn btn-danger btn-sm datatableDelete'>删除</button>");
+                        $(nTd).html("<button type='button' class='btn btn-primary btn-sm datatableEdit'>修改</button> <button type='button' class='btn btn-danger btn-sm datatableDelete'>删除</button>");
                     }
                 }
             ];
@@ -386,7 +448,7 @@
                         closeOnConfirm: false
                     },
                     function () {
-                        $.post("/dldata/delUser", {usID: data.id, curuser: loginUser}, function (result) {
+                        $.post("/dldata/delUser", {user: data, curuser: loginUser}, function (result) {
                             if (result == 'success') {
                                 tablesmember.ajax.reload();
                                 swal("删除成功!", "该行数据被删除.", "success");
